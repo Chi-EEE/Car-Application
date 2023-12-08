@@ -8,7 +8,8 @@
 #include <string>
 #include <stdint.h>
 
-#include <serial/serial.h>
+// #include <serial/serial.h>
+#include "serialib.h"
 
 #include <iostream>
 #include <map>
@@ -196,7 +197,7 @@ public:
     std::function<std::vector<Measure>()> iter_scans(ScanType scanType = NORMAL, int maxBufMeas = 3000, int minLen = 5);
 
 private:
-    std::unique_ptr<serial::Serial> _serial = nullptr;
+    std::unique_ptr<serialib> _serial = nullptr;
     std::string port;
     uint32_t baudrate;
     int _motor_speed = DEFAULT_MOTOR_PWM;

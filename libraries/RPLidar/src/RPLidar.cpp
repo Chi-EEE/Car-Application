@@ -44,8 +44,9 @@ RPLidar::RPLidar(const std::string &port, uint32_t baudrate)
     this->baudrate = baudrate;
     try
     {
-        this->_serial = std::make_unique<serial::Serial>(port, baudrate, serial::Timeout(1000U));
-        std::cout << "Opened serial: " << _serial->isOpen() << '\n';
+        this->_serial = std::make_unique<serialib>();
+        this->_serial->openDevice(port.c_str(), baudrate);
+        std::cout << "Opened serial: " << this->_serial->isDeviceOpen() << '\n';
     }
     catch (std::exception &e)
     {
@@ -59,11 +60,11 @@ RPLidar::~RPLidar()
 
 void RPLidar::disconnect()
 {
-    if (!this->_serial->isOpen())
+    if (!this->_serial->isDeviceOpen())
     {
         return;
     }
-    this->_serial->close();
+    this->_serial->closeDevice();
 }
 
 void RPLidar::_set_pwm(int pwm)
@@ -93,8 +94,8 @@ void RPLidar::start_motor()
 {
     spdlog::info("Starting motor");
     // For A1
-    this->_serial->setDTR(false);
-
+    if (this->_serial->setDTR());
+        this->_serial->setDTR();
     // For A2
     this->_set_pwm(this->_motor_speed);
     this->motor_running = true;
@@ -112,7 +113,8 @@ void RPLidar::stop_motor()
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
     // For A1
-    this->_serial->setDTR(true);
+    if (!this->_serial->setDTR())
+        this->_serial->setDTR();
     this->motor_running = false;
 }
 
@@ -143,7 +145,7 @@ void RPLidar::_send_payload_cmd(uint8_t cmd, const std::string &payload)
 
     req += static_cast<char>(checksum);
 
-    this->_serial->write(req);
+    this->_serial->writeBytes(req.c_str(), req.size());
     spdlog::debug("Command sent: {}", spdlog::to_hex(req));
 }
 
@@ -155,9 +157,9 @@ void RPLidar::_send_payload_cmd(uint8_t cmd, const std::string &payload)
 void RPLidar::_send_cmd(uint8_t cmd)
 {
     std::string req;
-    req.push_back(SYNC_BYTE);
-    req.push_back(cmd);
-    this->_serial->write(req);
+    req += SYNC_BYTE;
+    req += cmd;
+    this->_serial->writeBytes(req.c_str(), req.size());
     spdlog::debug("Command sent: {}", spdlog::to_hex(req));
 }
 
@@ -171,7 +173,7 @@ std::tuple<uint8_t, bool, uint8_t> RPLidar::_read_descriptor()
     // Read descriptor packet
     std::vector<uint8_t> descriptor;
     descriptor.reserve(DESCRIPTOR_LEN);
-    this->_serial->read(descriptor.data(), DESCRIPTOR_LEN);
+    this->_serial->readBytes(descriptor.data(), DESCRIPTOR_LEN);
     spdlog::debug("Received descriptor: {}", spdlog::to_hex(descriptor));
 
     if (descriptor.size() != DESCRIPTOR_LEN)
@@ -205,7 +207,7 @@ std::vector<uint8_t> RPLidar::_read_response(int dsize)
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 
-    this->_serial->read(data, dsize);
+    this->_serial->readBytes(data.data(), dsize);
 
     spdlog::debug("Received data: {}", spdlog::to_hex(data));
     return data;
@@ -334,7 +336,7 @@ void RPLidar::clean_input()
     {
         throw std::runtime_error("Cleaning not allowed during scanning process active!");
     }
-    this->_serial->flushInput();
+    this->_serial->flushReceiver();
     this->express_trame = 32;
     this->express_data = nullptr;
 }

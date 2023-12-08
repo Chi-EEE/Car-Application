@@ -6,7 +6,8 @@ int main()
 {
     spdlog::set_level(spdlog::level::debug);
 
-    auto lidar = std::make_unique<RPLidar>("/dev/ttyUSB0");
+    auto lidar = std::make_unique<RPLidar>("COM3");
+    //auto lidar = std::make_unique<RPLidar>("/dev/ttyUSB0");
 
     auto info = lidar->get_info();
     std::cout << fmt::format("model: {}, firmware: ({}, {}), hardware: {}, serialnumber: {}\n", info.model, info.firmware.first, info.firmware.second, info.hardware, info.serialNumber);
