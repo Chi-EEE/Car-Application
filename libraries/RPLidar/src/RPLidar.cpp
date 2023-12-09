@@ -39,7 +39,7 @@ namespace rplidar {
 	 * @param port Serial port name to which sensor is connected
 	 * @param baudrate Baudrate for serial connection (the default is 115200)
 	 */
-	RPLidar::RPLidar(const std::string& port, uint32_t baudrate, std::unique_ptr<serial::Serial> serial) : port(port), baudrate(baudrate), _serial(std::move(serial))
+	RPLidar::RPLidar(const std::string& port, uint32_t baudrate, std::unique_ptr<py::object> serial) : port(port), baudrate(baudrate), _serial(std::move(serial))
 	{
 	}
 
@@ -47,8 +47,10 @@ namespace rplidar {
 	{
 		try
 		{
-			std::unique_ptr<serial::Serial> serial = std::make_unique<serial::Serial>(port, baudrate, serial::Timeout(1000U));
-			std::unique_ptr<RPLidar> lidar = std::make_unique<RPLidar>(port, baudrate, std::move(serial));
+			auto serial = py::module_::import("serial");
+			auto Serial = serial.attr("Serial");
+			std::unique_ptr<py::object> serial_port = std::make_unique<py::object>(Serial.call(port, baudrate));
+			std::unique_ptr<RPLidar> lidar = std::make_unique<RPLidar>(port, baudrate, std::move(serial_port));
 			return std::move(lidar);
 		}
 		catch (std::exception& e)
@@ -64,11 +66,11 @@ namespace rplidar {
 
 	void RPLidar::disconnect()
 	{
-		if (!this->_serial->isOpen())
+		if (!this->_serial->attr("isOpen")())
 		{
 			return;
 		}
-		this->_serial->close();
+		this->_serial->attr("close")();
 	}
 
 	void RPLidar::_set_pwm(int pwm)
@@ -98,7 +100,7 @@ namespace rplidar {
 	{
 		spdlog::info("Starting motor");
 		// For A1
-		this->_serial->setDTR(false);
+		this->_serial->attr("setDTR")(false);
 
 		// For A2
 		this->_set_pwm(this->_motor_speed);
@@ -117,7 +119,7 @@ namespace rplidar {
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
 		// For A1
-		this->_serial->setDTR(true);
+		this->_serial->attr("setDTR")(true);
 		this->motor_running = false;
 	}
 
@@ -148,7 +150,7 @@ namespace rplidar {
 
 		req += static_cast<uint8_t>(checksum);
 
-		this->_serial->write(req);
+		this->_serial->attr("write")(req);
 		spdlog::debug("Command sent: {}", spdlog::to_hex(req));
 	}
 
@@ -163,7 +165,7 @@ namespace rplidar {
 		req += static_cast<uint8_t>(SYNC_BYTE);
 		req += static_cast<uint8_t>(cmd);
 
-		this->_serial->write(req);
+		this->_serial->attr("write")(req);
 		spdlog::debug("Command sent: {}", spdlog::to_hex(req));
 	}
 
@@ -175,8 +177,7 @@ namespace rplidar {
 	tl::expected<std::tuple<uint8_t, bool, uint8_t>, std::string> RPLidar::_read_descriptor()
 	{
 		// Read descriptor packet
-		std::vector<uint8_t> descriptor(DESCRIPTOR_LEN);
-		this->_serial->read(descriptor.data(), DESCRIPTOR_LEN);
+		auto descriptor = this->_serial->attr("read")(DESCRIPTOR_LEN).cast<std::vector<uint8_t>>();
 		spdlog::debug("Received descriptor: {}", spdlog::to_hex(descriptor));
 
 		if (descriptor.size() != DESCRIPTOR_LEN)
@@ -202,15 +203,12 @@ namespace rplidar {
 	{
 		spdlog::debug("Trying to read response: {} bytes", dsize);
 
-		std::vector<uint8_t> data;
-		data.reserve(dsize);
-
-		while (this->_serial->available() < dsize)
+		while (this->_serial->attr("available")().cast<int>() < dsize)
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		}
 
-		this->_serial->read(data, dsize);
+		auto data = this->_serial->attr("read")(dsize).cast<std::vector<uint8_t>>();
 
 		spdlog::debug("Received data: {}", spdlog::to_hex(data));
 		return data;
@@ -232,7 +230,7 @@ namespace rplidar {
 	tl::expected<DeviceInfo, std::string> RPLidar::get_info()
 	{
 		// Check if there's data in the buffer
-		if (this->_serial->available() > 0)
+		if (this->_serial->attr("available")().cast<int>() > 0)
 		{
 			throw std::runtime_error("Data in buffer, you can't have info! Run flush() to empty the buffer.");
 		}
@@ -294,7 +292,7 @@ namespace rplidar {
 	tl::expected<HealthInfo, std::string> RPLidar::get_health()
 	{
 		// Check if there's data in the buffer
-		if (this->_serial->available() > 0)
+		if (this->_serial->attr("available")().cast<int>() > 0)
 		{
 			return tl::make_unexpected("Data in buffer, you can't get health info! Run cleanInput() to empty the buffer.");
 		}
@@ -345,7 +343,7 @@ namespace rplidar {
 		{
 			throw std::runtime_error("Cleaning not allowed during scanning process active!");
 		}
-		this->_serial->flushInput();
+		this->_serial->attr("flushInput")();
 		this->express_trame = 32;
 		this->express_data = nullptr;
 	}
@@ -538,7 +536,7 @@ namespace rplidar {
 
 					if (maxBufMeas)
 					{
-						int dataInBuf = this->_serial->available();
+						int dataInBuf = this->_serial->attr("available")().cast<int>();
 						if (dataInBuf > maxBufMeas)
 						{
 							spdlog::warn(

@@ -8,7 +8,7 @@
 #include <string>
 #include <stdint.h>
 
-#include <serial/serial.h>
+#include <pybind11/embed.h>
 
 #include <iostream>
 #include <map>
@@ -30,10 +30,14 @@
 
 #include <memory>
 
+#include <stdint.h>
+
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/bin_to_hex.h>
 
 #include <tl/expected.hpp>
+
+namespace py = pybind11;
 
 namespace rplidar {
 	constexpr uint8_t SYNC_BYTE = 0xA5;
@@ -170,7 +174,7 @@ namespace rplidar {
 	public:
 		static tl::expected<std::unique_ptr<RPLidar>, nullptr_t> create(const std::string& port, uint32_t baudrate = 115200U);
 
-		RPLidar(const std::string& port, uint32_t baudrate, std::unique_ptr<serial::Serial> serial);
+		RPLidar(const std::string& port, uint32_t baudrate, std::unique_ptr<py::object> serial);
 
 		~RPLidar();
 
@@ -214,7 +218,7 @@ namespace rplidar {
 
 	private:
 
-		std::unique_ptr<serial::Serial> _serial = nullptr;
+		std::unique_ptr<py::object> _serial = nullptr;
 
 		std::string port;
 		uint32_t baudrate;
