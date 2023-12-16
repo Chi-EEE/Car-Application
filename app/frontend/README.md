@@ -1,53 +1,64 @@
-<table>
-  <tr>
-    <td>
-      <a href="https://www.amazon.com/dp/B08D6T6BKS/"><img src="https://static.packt-cdn.com/products/9781839213625/cover/smaller" width="120" /></a>
-    </td>
-    <td>
-      <h3>Svelte 3 Up and Running</h3>
-      <p>Want to learn Svelte 3 and how to build a Single-Page App (SPA) with it (and with this router)? Check out my book <a href="https://www.amazon.com/dp/B08D6T6BKS/">Svelte 3 Up and Running</a> on Amazon.</p>
-    </td>
-</table>
+# Elder.js Template Project
 
-# Svelte app with svelte-spa-router
+<img src="https://img.shields.io/badge/dynamic/json?color=brightgreen&label=Node&query=engines.node&url=https%3A%2F%2Fraw.githubusercontent.com%2Felderjs%2Ftemplate%2Fmaster%2Fpackage.json" alt="node version" />
 
-This is a project template for [Svelte 4](https://svelte.dev) apps that includes [svelte-spa-router](https://github.com/italypaleale/svelte-spa-router) for client-side routing, TypeScript, and Vite as bundler.
+This is a project template for [Elder.js](https://elderguide.com/tech/elderjs/) apps. The template lives at https://github.com/elderjs/template and the Elder.js source is here: https://github.com/elderjs/elderjs
 
-## About svelte-spa-router
-
-svelte-spa-router is a client-side router for Svelte 4 apps that leverages hash-based routing (i.e. stores the current view in the URL after the `#` symbol).
-
-You can read more about the router, and the reasons why you might want to use hash-based routing (or not), in the [documentation](https://github.com/italypaleale/svelte-spa-router).
+Here is a demo of the template: [https://elderjs.pages.dev/](https://elderjs.pages.dev/)
 
 ## Get started
 
-Install the dependencies…
+To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
 
 ```bash
-cd svelte-app
-npm install
+npx degit Elderjs/template elderjs-app
+cd elderjs-app
 ```
 
-…then start a dev server using [Vite](https://vite.dev):
+### Install the dependencies:
 
 ```bash
-npm run dev
+npm install # or just yarn
 ```
 
-Navigate to [http://localhost:5050](http://localhost:5050). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
+### Start Project:
 
-You can add more routes by defining them in the [`src/routes.ts`](./src/routes.ts) file. More information can be found on the [documentation for svelte-spa-router](https://github.com/ItalyPaleAle/svelte-spa-router/blob/main/README.md).
+```bash
+npm start # or npm run dev
+```
 
-By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `vite` commands in package.json to include the option `--host 0.0.0.0`.
+Navigate to [localhost:3000](http://localhost:3000). You should see your app running.
 
-If you're using [Visual Studio Code](https://code.visualstudio.com/) we recommend installing the official extension [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode). If you are using other editors you may need to install a plugin in order to get syntax highlighting and intellisense.
+This spawns a development server, so simply edit a file in `src`, save it, and reload the page to see your changes.
 
-## Building and running in production mode
+You can also see a live demo of this template: [https://elderjs.pages.dev/](https://elderjs.pages.dev/)
 
-To create an optimized version of the app:
+#### What to Expect
+
+- A dev server is watching your files for changes. It will restart when it needs to.
+- Rollup is watching your files for changes. It will restart when it needs to.
+- If your `elder.config.js` has `@elderjs/plugin-browser-reload': {}` in it's plugins, your browser will automatically restart after the server restarts.
+
+**esbuild**
+
+If you are looking for a faster development experience run `npm run esbuild` this is experimental but will be improving rapidly.
+
+### To Build HTML for Production:
 
 ```bash
 npm run build
 ```
 
-You can run the newly-built app with `npm run preview`.
+Let the build finish. It will put all of your statically generated files in `./public`.
+
+If you wish to preview you can use:
+
+```bash
+npx sirv-cli public
+```
+
+### To Run in SSR Mode for Production:
+
+```bash
+npm run serve
+```
