@@ -12,11 +12,10 @@ class Inertia
 {
 public:
 	static drogon::HttpResponsePtr newInertiaResponse(
-		const drogon::HttpViewData& data = drogon::HttpViewData(),
 		const drogon::HttpRequestPtr& req,
-		std::unordered_map<std::string, std::function<std::string()>> prop_functions,
-		const std::string& component = "",
-		const std::string& url = ""
+		std::unordered_map<std::string, std::function<std::string()>>& prop_functions,
+		const std::string& component,
+		const std::string& url
 	) {
 		if (req->getHeader("X-Requested-With") != "XMLHttpRequest" || req->getHeader("X-Inertia") != "true") {
 			drogon::HttpViewData http_view_data = drogon::HttpViewData{};
