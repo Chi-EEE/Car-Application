@@ -37,7 +37,7 @@ public:
 		}
 		const std::string& inertia_partial_component = req->getHeader("X-Inertia-Partial-Component");
 		const std::string& inertia_partial_data = req->getHeader("X-Inertia-Partial-Data");
-		if (inertia_partial_component == "" || inertia_partial_data == "") {
+		if (inertia_partial_component != "" && inertia_partial_component == component && inertia_partial_data != "") {
 			std::stringstream ss(inertia_partial_data);
 			std::vector<std::string> props;
 			while (ss.good())
@@ -57,7 +57,10 @@ public:
 			return response;
 		}
 		else {
-			return drogon::HttpResponse::newHttpJsonResponse(getJsonResult(prop_functions, component, url));
+			auto response = drogon::HttpResponse::newHttpJsonResponse(getJsonResult(prop_functions, component, url));
+			response->addHeader("Vary", "Accept");
+			response->addHeader("X-Inertia", "true");
+			return response;
 		}
 	}
 private:
