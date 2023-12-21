@@ -13,6 +13,8 @@ add_requires("drogon", { configs = {sqlite3 = true, mysql = true}})
 -- For Rust-Like Programming
 add_requires("tl_expected")
 
+add_requires("picosha2")
+
 target("backend")
     set_kind("binary")
 
@@ -22,6 +24,8 @@ target("backend")
     add_packages("drogon")
 
     add_packages("tl_expected")
+
+    add_packages("picosha2")
 
     -- Could improve this so that it only builds the frontend if it has changed
     after_build_files(function(target)
