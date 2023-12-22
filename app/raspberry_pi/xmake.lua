@@ -18,7 +18,7 @@ add_requires("imath")
 
 if is_plat("linux", "macosx") then
     -- For the SunFounder Car
-    add_requires("pca9685", {configs = {shared = true}})
+    add_requires("pca9685")
 end
 
 -- For Functional Programming?

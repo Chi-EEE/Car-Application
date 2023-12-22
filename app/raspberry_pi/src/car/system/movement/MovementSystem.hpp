@@ -25,9 +25,9 @@ namespace car::system::movement {
 
 		void initalize()
 		{
-            this->pwn->init(1, 0x40);
+            this->pwm->init(1, 0x40);
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            this->pwn->setPWMFreq(FREQUENCY);
+            this->pwm->setPWMFreq(FREQUENCY);
             std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         }
 
@@ -37,12 +37,12 @@ namespace car::system::movement {
 
 		void terminate() {
 		}
-        //def map(self, x, in_min, in_max, out_min, out_max):
+
+        // https://www.arduino.cc/en/Reference/Map
         int map(int x, int in_min, int in_max, int out_min, int out_max) {
             return ((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min);
         }
 
-        //def _angle_to_analog(self, angle):
         int setAngleToAnalog(int angle) {
             float pulse_wide;
             int analog_value;
