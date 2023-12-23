@@ -10,7 +10,7 @@
             "cStandard": "c17",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "linux-gcc-x64",
-            "compileCommands": "legacy/compile_commands.json"
+            "compileCommands": "app/raspberry_pi/compile_commands.json"
         }
     ],
     "version": 4

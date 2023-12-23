@@ -19,6 +19,7 @@ add_requires("imath")
 if is_plat("linux", "macosx") then
     -- For the SunFounder Car
     add_requires("pca9685")
+    add_requires("tb6612")
 end
 
 -- For Functional Programming?
@@ -46,6 +47,7 @@ target("raspberry_pi")
     -- For the SunFounder Car
     add_packages("rplidar")
     add_packages("pca9685")
+    add_packages("tb6612")
 
     add_headerfiles("include/**.h")
 
@@ -62,7 +64,6 @@ target("raspberry_pi")
     add_configfiles("settings/config.jsonc", {onlycopy = true, prefixdir = "settings"})
     
 -- From xmake sample code:
-
 if is_plat("linux") then
     for _, file in ipairs(os.files("tests/pca9685/test_*.cpp")) do
         local name = path.basename(file)
@@ -74,6 +75,18 @@ if is_plat("linux") then
             add_packages("pca9685")
 
             add_files("tests/pca9685/" .. name .. ".cpp")
+        target_end()
+    end
+    for _, file in ipairs(os.files("tests/tb6612/test_*.cpp")) do
+        local name = path.basename(file)
+        target(name)
+            set_kind("binary")
+            set_default(false)
+            set_license("LGPL-2.1")
+            
+            add_packages("tb6612")
+
+            add_files("tests/tb6612/" .. name .. ".cpp")
         target_end()
     end
 end
