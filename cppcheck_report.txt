@@ -67,5 +67,11 @@ app/raspberry_pi/src/car/display/CarConsole.hpp:62:3: style: Class 'CarConsole' 
 app/raspberry_pi/src/car/system/lidar/LidarScanner.hpp:19:3: style: Class 'LidarScanner' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
   LidarScanner(const std::string &lidar_port) : lidar(RPLidar::create(lidar_port).value())
   ^
+app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:13:9: style: Unused variable: directionChannel [unusedVariable]
+    int directionChannel;
+        ^
+app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:11:0: style: The function 'setupGPIOMotor' is never used. [unusedFunction]
+
+^
 nofile:0:0: information: Cppcheck cannot find all the include files (use --check-config for details) [missingInclude]
 
