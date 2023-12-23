@@ -17,6 +17,10 @@ Run the following command to build the sub-project:
 xmake build raspberry_pi
 ```
 
+To connect the Raspberry Pi to the backend, you would need the `IPv4 Address` of your Computer/Server and change the host to the value in `IPv4 Address`.
+
+If this doesn't work, you may need to restart your Computer/Server.
+
 ## Main Technologies
 
 - C++17

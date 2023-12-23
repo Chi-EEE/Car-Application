@@ -12,6 +12,11 @@ Run the following command to build the sub-project:
 xmake build backend
 ```
 
+## How to use
+
+Url: `localhost:8848/#/room/example` - the room url, the website will create a room.
+Url: `localhost:8848/#/` - the base url, the page will list the rooms.
+
 ## Main Technologies
 
 - C++17

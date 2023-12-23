@@ -12,6 +12,8 @@ Run the following command to build the sub-project:
 pnpm run build
 ```
 
+This process is not necessary as this sub-project is automatically built when running the `backend` sub-project.
+
 ## Main Technologies
 
 - [Svelte](https://svelte.dev/)
