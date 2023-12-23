@@ -1,5 +1,5 @@
 package("tb6612")
-    add_deps("cppgpiod")
+    add_deps("libgpiod")
     set_sourcedir(path.join(os.scriptdir(), "tb6612"))
     on_install(function (package)
         local configs = {}
