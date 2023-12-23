@@ -4,7 +4,7 @@ Full-Stack Application used by Users to control a SunFounder Pi-Car
 
 ## Description
 
-The application contains the following: 
+The application contains the following inside the app directory: 
 - backend: The server behind the frontend, it allows the users and car to communicate to eachother.
 - frontend: The frontend of the application, allows users to see the UI of the car,
 - raspberry-pi: The code for the raspberry pi, it allows the raspberry pi to communicate to the server and handle messages from it
