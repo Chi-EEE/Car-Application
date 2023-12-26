@@ -10,7 +10,7 @@ namespace tb6612
           backward_offset(!offset),
           frequency(frequency)
     {
-        gpioSetMode(directionChannel, PI_OUTPUT);
+        gpioSetMode(direction_channel, PI_OUTPUT);
     }
 
     Motor::setSpeed(int speed)
