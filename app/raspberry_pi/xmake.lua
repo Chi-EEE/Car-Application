@@ -19,7 +19,7 @@ add_requires("imath")
 if is_plat("linux", "macosx") then
     -- For the SunFounder Car
     add_requires("pca9685")
-    add_requires("tb6612")
+    add_requires("pigpio")
 end
 
 -- For Functional Programming?
@@ -47,7 +47,7 @@ target("raspberry_pi")
     -- For the SunFounder Car
     add_packages("rplidar")
     add_packages("pca9685")
-    add_packages("tb6612")
+    add_packages("pigpio")
 
     add_headerfiles("include/**.h")
 
@@ -84,7 +84,7 @@ if is_plat("linux") then
             set_default(false)
             set_license("LGPL-2.1")
             
-            add_packages("tb6612")
+            add_packages("pigpio")
 
             add_files("tests/tb6612/" .. name .. ".cpp")
         target_end()

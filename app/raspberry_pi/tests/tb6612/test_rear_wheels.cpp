@@ -1,35 +1,34 @@
 #include <thread>
 
-#include "gpiod.hpp"
+#include "pigpio.h"
+#include "pigpiod_if2.h"
+
+void setupGPIOMotor();
 
 int main()
 {
-
+    setupGPIOMotor();
     return 0;
 }
 
 void setupGPIOMotor()
 {
     int directionChannel;
-    // Setup GPIO for direction channel
-    gpiod::chip chip("/dev/gpiochip0");
-    int direction_channel = 17;
-    chip.prepare_request()
-        .add_line_settings(
-            gpiod::line::offset(direction_channel), gpiod::line_settings()
-                                         .set_direction(gpiod::line::direction::OUTPUT) // Setup the GPIO
-                                         .set_debounce_period(std::chrono::microseconds(100)) // 100 Speed
-                                         .set_output_value(gpiod::line::value::ACTIVE) // Move wheel
-            )
-        .do_request();
 
-    std::this_thread::sleep_for(std::chrono::seconds(5));
+    gpioSetMode(directionChannel, PI_OUTPUT);
 
-    chip.prepare_request()
-        .add_line_settings(
-            gpiod::line::offset(direction_channel), gpiod::line_settings()
-                                         .set_direction(gpiod::line::direction::OUTPUT) // Setup the GPIO
-                                         .set_output_value(gpiod::line::value::INACTIVE) // Stop wheel
-            )
-        .do_request();
+    int pinA = 12;
+    int pinB = 13;
+    int frequency = 1000;
+
+    gpioSetMode(pinA, PI_OUTPUT);
+    gpioSetMode(pinB, PI_OUTPUT);
+    int a = gpioHardwarePWM(pinA, frequency, 0);
+    int b = gpioHardwarePWM(pinB, frequency, 0);
+
+    int value = 0;
+
+    gpioHardwarePWM(pinB, frequency, static_cast<int>(value));
+    gpioHardwarePWM(pinA, frequency, static_cast<int>(value));
+
 }
