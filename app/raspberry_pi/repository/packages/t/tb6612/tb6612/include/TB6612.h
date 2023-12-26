@@ -3,7 +3,8 @@
 
 #pragma once
 
-#include "cppgpio.hpp"
+#include "pigpio.h"
+#include "pigpiod_if2.h"
 
 namespace tb6612
 {
@@ -13,22 +14,23 @@ namespace tb6612
         Motor(
             const int &direction_channel,
             const int &pwn = 0,
-            const bool &offset = true) : 
-            direction_channel(direction_channel), 
-            pwm(pwm), 
-            offset(offset),
-            forward_offset(offset),
-            backward_offset(!offset)
-        {
-        }
+            const bool &offset = true,
+            const int &frequency = 1000);
+
+        void setSpeed(int speed);
+        void forward();
+        void backward();
+        void stop();
 
     private:
         const int direction_channel;
         const int pwm;
         const bool offset;
 
-        bool forward_offset;
-        bool backward_offset;
+        const bool forward_offset;
+        const bool backward_offset;
+
+        const int frequency;
 
         int speed = 0;
     }
