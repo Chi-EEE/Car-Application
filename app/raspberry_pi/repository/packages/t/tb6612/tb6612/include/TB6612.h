@@ -8,6 +8,12 @@
 
 namespace tb6612
 {
+    enum MotorStatus
+    {
+        UNINITIALIZED,
+        FORWARD,
+        BACKWARD
+    };
     class Motor
     {
     public:
@@ -22,6 +28,10 @@ namespace tb6612
         void backward();
         void stop();
 
+        MotorStatus getStatus() const { return this->status; }
+        int getSpeed() const { return this->speed; }
+        bool isMoving() const { return this->speed > 0; }
+
     private:
         const int direction_channel;
         const int pwm;
@@ -32,6 +42,7 @@ namespace tb6612
 
         const int frequency;
 
+        MotorStatus status = UNINITIALIZED;
         int speed = 0;
     }
 }

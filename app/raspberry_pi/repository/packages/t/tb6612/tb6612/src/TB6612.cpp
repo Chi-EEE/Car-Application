@@ -22,11 +22,13 @@ namespace tb6612
     void Motor::forward()
     {
         gpioWrite(direction_channel, forward_offset);
+        this->status = FORWARD;
     }
 
     void Motor::backward()
     {
         gpioWrite(direction_channel, backward_offset);
+        this->status = BACKWARD;
     }
 
     void Motor::stop()
