@@ -67,10 +67,10 @@ app/raspberry_pi/src/car/display/CarConsole.hpp:62:3: style: Class 'CarConsole' 
 app/raspberry_pi/src/car/system/lidar/LidarScanner.hpp:19:3: style: Class 'LidarScanner' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
   LidarScanner(const std::string &lidar_port) : lidar(RPLidar::create(lidar_port).value())
   ^
-app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:26:11: style: Variable 'a' is assigned a value that is never used. [unreadVariable]
+app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:76:11: style: Variable 'a' is assigned a value that is never used. [unreadVariable]
     int a = gpioHardwarePWM(pinA, frequency, 0);
           ^
-app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:27:11: style: Variable 'b' is assigned a value that is never used. [unreadVariable]
+app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:77:11: style: Variable 'b' is assigned a value that is never used. [unreadVariable]
     int b = gpioHardwarePWM(pinB, frequency, 0);
           ^
 nofile:0:0: information: Cppcheck cannot find all the include files (use --check-config for details) [missingInclude]
