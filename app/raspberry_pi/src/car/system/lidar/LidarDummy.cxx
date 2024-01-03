@@ -1,5 +1,5 @@
-#ifndef LIDARDUMMY_HPP
-#define LIDARDUMMY_HPP
+#ifndef LIDARDUMMY_CXX
+#define LIDARDUMMY_CXX
 
 #pragma once
 
@@ -7,7 +7,7 @@
 
 #include <spdlog/spdlog.h>
 
-#include "LidarDevice.hpp"
+#include "LidarDevice.cxx"
 
 namespace car::system::lidar {
 	class LidarDummy : public LidarDevice

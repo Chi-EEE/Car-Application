@@ -3,14 +3,14 @@
 
 #include <fmt/format.h>
 
-#include "global/Config.hpp"
+#include "global/Config.cxx"
 
-#include "car/display/CarConsole.hpp"
+#include "car/display/CarConsole.cxx"
 
 #include "car/system/CarSystem.h"
 
-#include "car/system/lidar/LidarScanner.hpp"
-#include "car/system/lidar/LidarDummy.hpp"
+#include "car/system/lidar/LidarScanner.cxx"
+#include "car/system/lidar/LidarDummy.cxx"
 
 std::string getWebSocketUrl()
 {

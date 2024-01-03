@@ -1,5 +1,5 @@
-#ifndef MOVEMENTSYSTEM_HPP
-#define MOVEMENTSYSTEM_HPP
+#ifndef MOVEMENTSYSTEM_CXX
+#define MOVEMENTSYSTEM_CXX
 
 #pragma once
 
@@ -7,8 +7,11 @@
 
 #include "PCA9685.h"
 
-#include "../messaging/commands/MoveCommand.hpp"
-#include "../messaging/commands/TurnCommand.hpp"
+#include "../messaging/commands/MoveCommand.cxx"
+#include "../messaging/commands/TurnCommand.cxx"
+
+#include "wheels/FrontWheel.cxx"
+#include "wheels/RearWheel.cxx"
 
 using namespace car::system::messaging::commands;
 

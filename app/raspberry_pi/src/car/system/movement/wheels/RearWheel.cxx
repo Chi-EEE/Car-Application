@@ -1,9 +1,12 @@
+#ifndef REARWHEEL_CXX
+#define REARWHEEL_CXX
+
 #include <memory>
 
 #include <spdlog/spdlog.h>
 
-#include <PCA9865.h>
-#include <TB6612.hpp>
+#include <PCA9685.h>
+#include <TB6612.h>
 
 // Made with the help of ChatGPT
 
@@ -87,3 +90,5 @@ namespace car::system::movement::wheels
 		int speed;
 	};
 } // namespace car::system::movement::wheels
+
+#endif

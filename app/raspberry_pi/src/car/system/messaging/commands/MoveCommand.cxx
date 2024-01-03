@@ -1,5 +1,5 @@
-#ifndef MOVECOMMAND_HPP
-#define MOVECOMMAND_HPP
+#ifndef MOVECOMMAND_CXX
+#define MOVECOMMAND_CXX
 
 #pragma once
 

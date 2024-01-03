@@ -7,9 +7,9 @@
 
 #include <nlohmann/json.hpp>
 
-#include "lidar/LidarDevice.hpp"
-#include "messaging/MessagingSystem.hpp"
-#include "movement/MovementSystem.hpp"
+#include "lidar/LidarDevice.cxx"
+#include "messaging/MessagingSystem.cxx"
+#include "movement/MovementSystem.cxx"
 
 using json = nlohmann::json;
 

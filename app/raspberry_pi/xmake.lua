@@ -48,12 +48,12 @@ target("raspberry_pi")
     -- For the SunFounder Car
     add_packages("rplidar")
     add_packages("pca9685")
-    add_packages("pigpio")
+    add_packages("tb6612")
 
     add_headerfiles("include/**.h")
 
-    add_headerfiles("src/**.h", "src/**.hpp")
-    add_files("src/**.cpp")
+    add_headerfiles("src/**.h")
+    add_files("src/**.cpp", "src/**.cxx")
     
     add_includedirs("include")
 
@@ -63,6 +63,7 @@ target("raspberry_pi")
 
     set_configdir("$(buildir)/$(plat)/$(arch)/$(mode)")
     add_configfiles("settings/config.jsonc", {onlycopy = true, prefixdir = "settings"})
+target_end()
     
 -- From xmake sample code:
 if is_plat("linux") then

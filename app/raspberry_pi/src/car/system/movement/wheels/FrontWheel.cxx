@@ -1,3 +1,6 @@
+#ifndef FRONTWHEEL_CXX
+#define FRONTWHEEL_CXX
+
 #include <algorithm>
 
 #include <PCA9685.h>
@@ -54,3 +57,5 @@ namespace car::system::movement::wheels
 		int angle;
 	};
 } // namespace car::system::movement::wheels
+
+#endif

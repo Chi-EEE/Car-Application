@@ -1,5 +1,5 @@
-#ifndef TURNCOMMAND_HPP
-#define TURNCOMMAND_HPP
+#ifndef TURNCOMMAND_CXX
+#define TURNCOMMAND_CXX
 
 #pragma once
 

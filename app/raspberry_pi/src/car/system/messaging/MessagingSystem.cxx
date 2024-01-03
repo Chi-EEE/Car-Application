@@ -1,5 +1,5 @@
-#ifndef MESSAGINGSYSTEM_HPP
-#define MESSAGINGSYSTEM_HPP
+#ifndef MESSAGINGSYSTEM_CXX
+#define MESSAGINGSYSTEM_CXX
 
 #pragma once
 
@@ -15,8 +15,8 @@
 
 #include <nlohmann/json.hpp>
 
-#include "commands/MoveCommand.hpp"
-#include "commands/TurnCommand.hpp"
+#include "commands/MoveCommand.cxx"
+#include "commands/TurnCommand.cxx"
 
 using json = nlohmann::json;
 

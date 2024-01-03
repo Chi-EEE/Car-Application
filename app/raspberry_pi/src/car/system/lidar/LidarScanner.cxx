@@ -1,9 +1,9 @@
-#ifndef LIDARSCANNER_HPP
-#define LIDARSCANNER_HPP
+#ifndef LIDARSCANNER_CXX
+#define LIDARSCANNER_CXX
 
 #pragma once
 
-#include "LidarDevice.hpp"
+#include "LidarDevice.cxx"
 
 #include <memory>
 

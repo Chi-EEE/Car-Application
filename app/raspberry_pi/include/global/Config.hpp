@@ -1,5 +1,5 @@
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
+#ifndef CONFIG_CXX
+#define CONFIG_CXX
 
 #pragma once
 
