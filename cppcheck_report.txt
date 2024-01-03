@@ -67,28 +67,28 @@ app/raspberry_pi/src/car/display/CarConsole.hpp:62:3: style: Class 'CarConsole' 
 app/raspberry_pi/src/car/system/lidar/LidarScanner.hpp:19:3: style: Class 'LidarScanner' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
   LidarScanner(const std::string &lidar_port) : lidar(RPLidar::create(lidar_port).value())
   ^
-app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:63:5: warning: Member variable 'Back_Wheels::cali_forward_A_' is not initialized in the constructor. [uninitMemberVar]
-    Back_Wheels(const int &bus_number = 1) : left_wheel(std::make_unique<TB6612_Motor>(Motor_A, PWM_A)),
+app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:21:5: warning: Member variable 'BackWheels::cali_forward_A' is not initialized in the constructor. [uninitMemberVar]
+    BackWheels(const int &bus_number = 1) : left_wheel(std::make_unique<TB6612>(Motor_A, PWM_A)),
     ^
-app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:63:5: warning: Member variable 'Back_Wheels::cali_forward_B_' is not initialized in the constructor. [uninitMemberVar]
-    Back_Wheels(const int &bus_number = 1) : left_wheel(std::make_unique<TB6612_Motor>(Motor_A, PWM_A)),
+app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:21:5: warning: Member variable 'BackWheels::cali_forward_B' is not initialized in the constructor. [uninitMemberVar]
+    BackWheels(const int &bus_number = 1) : left_wheel(std::make_unique<TB6612>(Motor_A, PWM_A)),
     ^
-app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:127:0: style: The function 'caliLeft' is never used. [unusedFunction]
+app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:85:0: style: The function 'caliLeft' is never used. [unusedFunction]
 
 ^
-app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:143:0: style: The function 'caliOK' is never used. [unusedFunction]
+app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:101:0: style: The function 'caliOK' is never used. [unusedFunction]
 
 ^
-app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:135:0: style: The function 'caliRight' is never used. [unusedFunction]
+app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:93:0: style: The function 'caliRight' is never used. [unusedFunction]
 
 ^
-app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:118:0: style: The function 'calibration' is never used. [unusedFunction]
+app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:76:0: style: The function 'calibration' is never used. [unusedFunction]
 
 ^
-app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:96:0: style: The function 'getSpeed' is never used. [unusedFunction]
+app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:54:0: style: The function 'getSpeed' is never used. [unusedFunction]
 
 ^
-app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:110:0: style: The function 'ready' is never used. [unusedFunction]
+app/raspberry_pi/tests/tb6612/test_rear_wheels.cpp:68:0: style: The function 'ready' is never used. [unusedFunction]
 
 ^
 nofile:0:0: information: Cppcheck cannot find all the include files (use --check-config for details) [missingInclude]
