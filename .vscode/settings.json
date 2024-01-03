@@ -85,6 +85,10 @@
         "random": "cpp",
         "string_view": "cpp",
         "numbers": "cpp",
-        "semaphore": "cpp"
+        "semaphore": "cpp",
+        "any": "cpp",
+        "ranges": "cpp",
+        "cinttypes": "cpp",
+        "valarray": "cpp"
     }
 }

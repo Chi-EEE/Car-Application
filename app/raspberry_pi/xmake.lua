@@ -14,12 +14,13 @@ add_requires("ftxui")
 add_requires("nlohmann_json")
 add_requires("spdlog")
 add_requires("fmt")
+
 add_requires("imath")
 
 if is_plat("linux", "macosx") then
     -- For the SunFounder Car
     add_requires("pca9685")
-    add_requires("pigpio")
+    add_requires("tb6612")
 end
 
 -- For Functional Programming?
@@ -84,7 +85,8 @@ if is_plat("linux") then
             set_default(false)
             set_license("LGPL-2.1")
             
-            add_packages("pigpio")
+            add_packages("pca9685")
+            add_packages("tb6612")
 
             add_files("tests/tb6612/" .. name .. ".cpp")
         target_end()

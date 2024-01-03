@@ -1,35 +1,47 @@
 #include "TB6612.h"
+#include <iostream>
+#include <math.h>
 
-Motor::Motor(const int &direction_channel, const int &pwn, const bool &offset, const int &frequency)
-    : direction_channel(direction_channel),
-      pwm(pwm),
-      offset(offset),
-      forward_offset(offset),
-      backward_offset(!offset),
-      frequency(frequency)
+int map(int x, int in_min, int in_max, int out_min, int out_max)
 {
-    gpioSetMode(direction_channel, PI_OUTPUT);
+    return static_cast<int>(std::roundf(((x - in_min) * (out_max - out_min) / ((in_max - in_min) * 1.0f)) + out_min));
 }
 
-Motor::setSpeed(int speed)
+namespace tb6612
 {
-    this->speed = speed;
-    gpioHardwarePWM(pwm, 1000, speed);
-}
+    Motor::Motor(const int &direction_channel, const int &pwm, const bool &offset, const int &frequency)
+        : direction_channel(direction_channel),
+          pwm(pwm),
+          offset(offset),
+          forward_offset(offset),
+          backward_offset(!offset),
+          frequency(frequency)
+    {
+        gpioSetMode(direction_channel, PI_OUTPUT);
+    }
 
-void Motor::forward()
-{
-    gpioWrite(direction_channel, forward_offset);
-    this->status = FORWARD;
-}
+    void Motor::setSpeed(const int &speed)
+    {
+        this->speed = speed;
+        int pulse_wide = map(speed, 0, 100, 0, 4095);
+        std::cout << pwm << "," << speed << "," << pulse_wide << '\n';
+        gpioWrite(this->pwm, pulse_wide);
+    }
 
-void Motor::backward()
-{
-    gpioWrite(direction_channel, backward_offset);
-    this->status = BACKWARD;
-}
+    void Motor::forward()
+    {
+        gpioWrite(direction_channel, forward_offset);
+        this->status = FORWARD;
+    }
 
-void Motor::stop()
-{
-    this->setSpeed(0);
+    void Motor::backward()
+    {
+        gpioWrite(direction_channel, backward_offset);
+        this->status = BACKWARD;
+    }
+
+    void Motor::stop()
+    {
+        this->setSpeed(0);
+    }
 }
