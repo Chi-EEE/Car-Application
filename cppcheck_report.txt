@@ -52,6 +52,9 @@ app/raspberry_pi/src/car/system/CarSystem.h:33:8: note: Technically the member f
 app/raspberry_pi/src/car/system/messaging/MessagingSystem.hpp:29:3: style: Class 'MessagingSystem' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
   MessagingSystem(const std::string& websocket_url) : websocket_url(websocket_url) {
   ^
+app/raspberry_pi/src/car/system/lidar/LidarScanner.hpp:20:112: error: Member variable 'enabled' is initialized by itself. [selfInitialization]
+  LidarScanner(const std::string &lidar_port, const bool &enabled) : lidar(RPLidar::create(lidar_port).value()), enabled(enabled)
+                                                                                                               ^
 app/raspberry_pi/src/car/display/CarConsole.hpp:24:13: performance:inconclusive: Technically the member function 'car::display::CarConsole::MainComponent' can be static (but you may consider moving to unnamed namespace). [functionStatic]
   Component MainComponent(std::function<void()> show_exit_modal) {
             ^
