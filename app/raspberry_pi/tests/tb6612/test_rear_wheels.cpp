@@ -6,65 +6,23 @@
 #include <algorithm>
 
 #include "PCA9685.h"
+#include "TB6612.hpp"
 
 static constexpr int Motor_A = 17;
 static constexpr int Motor_B = 27;
 static constexpr int PWM_A = 4;
 static constexpr int PWM_B = 5;
 
-// Made with ChatGPT
+// Made with the help of ChatGPT
 
-class TB6612_Motor
+class BackWheels
 {
 public:
-    TB6612_Motor(int motor_pin, int pwm_pin) : motor_pin(motor_pin), pwm_pin(pwm_pin), offset(1)
-    {
-        gpioSetMode(this->motor_pin, PI_OUTPUT);
-        gpioSetMode(this->pwm_pin, PI_OUTPUT);
-        gpioWrite(this->motor_pin, 0);
-        gpioPWM(this->pwm_pin, 0);
-    }
-
-    void setPWM(int value)
-    {
-        gpioPWM(this->pwm_pin, value);
-    }
-
-    void forward()
-    {
-        gpioWrite(this->motor_pin, this->offset);
-    }
-
-    void backward()
-    {
-        gpioWrite(this->motor_pin, 1 - this->offset);
-    }
-
-    void stop()
-    {
-        gpioWrite(this->motor_pin, 0);
-        gpioPWM(this->pwm_pin, 0);
-    }
-
-    void setOffset(int offset)
-    {
-        this->offset = offset;
-    }
-
-private:
-    int motor_pin;
-    int pwm_pin;
-    int offset;
-};
-
-class Back_Wheels
-{
-public:
-    Back_Wheels(const int &bus_number = 1) : left_wheel(std::make_unique<TB6612_Motor>(Motor_A, PWM_A)),
-                                             right_wheel(std::make_unique<TB6612_Motor>(Motor_B, PWM_B))
+    BackWheels(const int &bus_number = 1) : left_wheel(std::make_unique<TB6612>(Motor_A, PWM_A)),
+                                             right_wheel(std::make_unique<TB6612>(Motor_B, PWM_B))
     {
         this->forward_A = true;
-        this->forward_B_ = true;
+        this->forward_B = true;
 
         std::cout << "Initializing PCA9685" << std::endl;
         this->pca9685.init(bus_number, 0x40);
@@ -101,7 +59,7 @@ public:
     void setSpeed(const int &speed)
     {
         this->speed = std::clamp(speed, 0, 100);
-        const int pulse_wide = (this->speed / 100) * 4095;
+        const int pulse_wide = (this->speed / 100.0f) * 4095;
         this->pca9685.setPWM(PWM_A, 0, pulse_wide);
         this->pca9685.setPWM(PWM_B, 0, pulse_wide);
         std::cout << "Set speed to " << this->speed << std::endl;
@@ -110,7 +68,7 @@ public:
     void ready()
     {
         this->left_wheel->setOffset(this->forward_A);
-        this->right_wheel->setOffset(this->forward_B_);
+        this->right_wheel->setOffset(this->forward_B);
         this->stop();
         std::cout << "Ready" << std::endl;
     }
@@ -119,43 +77,43 @@ public:
     {
         this->setSpeed(50);
         this->forward();
-        this->cali_forward_A_ = this->forward_A;
-        this->cali_forward_B_ = this->forward_B_;
+        this->cali_forward_A = this->forward_A;
+        this->cali_forward_B = this->forward_B;
         std::cout << "Calibration" << std::endl;
     }
 
     void caliLeft()
     {
-        this->cali_forward_A_ = (1 + this->cali_forward_A_) & 1;
-        this->left_wheel->setOffset(this->cali_forward_A_);
+        this->cali_forward_A = (1 + this->cali_forward_A) & 1;
+        this->left_wheel->setOffset(this->cali_forward_A);
         this->forward();
         std::cout << "CaliLeft" << std::endl;
     }
 
     void caliRight()
     {
-        this->cali_forward_B_ = (1 + this->cali_forward_B_) & 1;
-        this->right_wheel->setOffset(this->cali_forward_B_);
+        this->cali_forward_B = (1 + this->cali_forward_B) & 1;
+        this->right_wheel->setOffset(this->cali_forward_B);
         this->forward();
         std::cout << "CaliRight" << std::endl;
     }
 
     void caliOK()
     {
-        this->forward_A = this->cali_forward_A_;
-        this->forward_B_ = this->cali_forward_B_;
+        this->forward_A = this->cali_forward_A;
+        this->forward_B = this->cali_forward_B;
         this->stop();
         std::cout << "CaliOK" << std::endl;
     }
 
 private:
-    std::unique_ptr<TB6612_Motor> left_wheel;
-    std::unique_ptr<TB6612_Motor> right_wheel;
+    std::unique_ptr<TB6612> left_wheel;
+    std::unique_ptr<TB6612> right_wheel;
     PCA9685 pca9685;
     int forward_A;
-    int forward_B_;
-    int cali_forward_A_;
-    int cali_forward_B_;
+    int forward_B;
+    int cali_forward_A;
+    int cali_forward_B;
     int speed;
 };
 
@@ -163,7 +121,7 @@ void test()
 {
     std::cout << "Initializing GPIO" << std::endl;
     gpioInitialise();
-    Back_Wheels back_wheels;
+    BackWheels back_wheels;
     const float DELAY = 0.01f;
     try
     {

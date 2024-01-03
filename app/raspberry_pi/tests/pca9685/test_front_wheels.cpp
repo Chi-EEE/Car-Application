@@ -1,31 +1,28 @@
 // Includes for PCA9685
 #include "PCA9685.h"
 #include <iostream>
-#include <stdio.h>
-// #include <ncurses.h>
-#include <thread> // std::thread
-#include <vector> // std::vector
-#include <unistd.h>
-#include <string>
+#include <algorithm>
+#include <thread>
 
-#include <string.h>
-
-#define MIN_PULSE_WIDTH 900
-#define MAX_PULSE_WIDTH 2100
-#define FREQUENCY 50
+static constexpr int MIN_PULSE_WIDTH = 900;
+static constexpr int MAX_PULSE_WIDTH = 2100;
+static constexpr int FREQUENCY = 50;
 
 using namespace std;
 
 int offset = 0;
 
 // motor channels
-int chanh = 0;
-int chanv = 1;
+static constexpr int chanh = 0;
+static constexpr int chanv = 1;
 
 // Declaration of Functions used ==================================
-int setAngle(int &angle, PCA9685 pwm, int &channel);
+int setAngle(int &angle, PCA9685 pwm, int channel);
 
-// def map(self, x, in_min, in_max, out_min, out_max):
+/**
+ * Following method clamps the x to in_min and in_max.
+ * Afterwards, it puts the result of that into the range of out_min and out_max
+*/
 int map(int x, int in_min, int in_max, int out_min, int out_max)
 {
     return ((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min);
@@ -42,31 +39,16 @@ int setAngleToAnalog(int angle)
     return (analog_value);
 }
 
-int setAngle(int &angle, PCA9685 pwm, int &channel)
+int setAngle(int &angle, PCA9685 pwm, int channel)
 {
-    int val = 0;
+    angle = std::clamp(angle, 0, 180);
 
-    if (angle > 180)
-    {
-        angle = 179;
-    }
-    if (angle < 0)
-    {
-        angle = 1;
-    }
-
-    val = setAngleToAnalog(angle);
+    int analog_angle = setAngleToAnalog(angle);
     // not sure what offset does
-    val += offset;
+    analog_angle += offset;
 
-    // setPWM(self, channel, on, off
-    // channel: The channel that should be updated with the new values (0..15)
-    // on: The tick (between 0..4095) when the signal should transition from low to high
-    // off:the tick (between 0..4095) when the signal should transition from high to low
-
-    pwm.setPWM(channel, 0, val);
-    // usleep(30);
-    cout << "Channel: " << channel << "\tSet to angle: " << angle << "\tVal: " << val << endl;
+    pwm.setPWM(channel, 0, analog_angle);
+    cout << "Channel: " << channel << "\tSet to angle: " << angle << "\tVal: " << analog_angle << endl;
     return (0);
 }
 
@@ -79,10 +61,10 @@ int main()
     // make sure you use the right address values.
     PCA9685 pwm;
     pwm.init(1, 0x40);
-    usleep(1000 * 100);
+    std::this_thread::sleep_for(std::chrono::microseconds(static_cast<int>(1000 * 100)));
     cout << "Setting frequency: " << FREQUENCY << endl;
     pwm.setPWMFreq(FREQUENCY);
-    usleep(1000 * 1000);
+    std::this_thread::sleep_for(std::chrono::microseconds(static_cast<int>(1000 * 1000 )));
 
     cout << "Returning to HOME position." << endl;
     setAngle(homeh, pwm, chanh);
