@@ -38,31 +38,6 @@ namespace car::system::movement {
 		void terminate() {
 		}
 
-        // From: https://github.com/chaoticmachinery/pca9685
-        int map(int x, int in_min, int in_max, int out_min, int out_max) {
-            return ((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min);
-        }
-
-        // From: https://github.com/chaoticmachinery/pca9685
-        int setAngleToAnalog(int angle) {
-            float pulse_wide;
-            int analog_value;
-
-            pulse_wide = map(angle, 0, 180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
-            analog_value = int(float(pulse_wide) / 1000000 * FREQUENCY * 4096);
-            return (analog_value);
-        }
-
-        // From: https://github.com/chaoticmachinery/pca9685
-		void turn(const TurnCommand& command) {
-            const float angle = std::clamp(command.angle, 1.0f, 179.0f);
-            for (int channel = 0; channel < 2; channel++) {
-                int val = 0;
-                val = setAngleToAnalog(angle);
-                this->pwm->setPWM(channel, 0, val);
-			}
-		}
-
 		~MovementSystem() {
 		};
 
