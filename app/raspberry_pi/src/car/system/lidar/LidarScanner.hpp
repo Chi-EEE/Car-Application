@@ -19,18 +19,12 @@ namespace car::system::lidar
 	public:
 		LidarScanner(const std::string &lidar_port, const bool &enabled) : lidar(RPLidar::create(lidar_port).value()), enabled(enabled)
 		{
-			if (!this->enabled)
-			{
-				spdlog::warn("The Lidar Scanner is disabled");
-			};
 		};
 
 		~LidarScanner(){};
 
 		void initialize() const override
 		{
-			if (!this->enabled)
-				return;
 			this->lidar->reset();
 			this->lidar->stop();
 			this->lidar->stop_motor();
@@ -38,8 +32,6 @@ namespace car::system::lidar
 
 		void start() const override
 		{
-			if (!this->enabled)
-				return;
 			this->lidar->start_motor();
 
 			// auto info_result = lidar->get_info();
@@ -60,19 +52,12 @@ namespace car::system::lidar
 		};
 		std::vector<Measure> scan() const override
 		{
-			if (!this->enabled)
-			{
-				std::vector<Measure> measures;
-				return measures;
-			}
 			std::function<std::vector<Measure>()> scanGenerator = this->lidar->iter_scans();
 			return scanGenerator();
 		};
 
 		void terminate() const override
 		{
-			if (!this->enabled)
-				return;
 			this->lidar->stop();
 			this->lidar->stop_motor();
 			this->lidar->disconnect();
@@ -80,7 +65,6 @@ namespace car::system::lidar
 
 	private:
 		std::unique_ptr<RPLidar> lidar;
-		const bool enabled;
 	};
 }
 

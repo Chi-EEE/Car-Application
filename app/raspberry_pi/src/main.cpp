@@ -36,7 +36,6 @@ int main()
 	using namespace rplidar;
 
 	// spdlog::set_level(spdlog::level::off);
-	//test();
 	
 	std::string websocket_url = getWebSocketUrl();
 	spdlog::info("Got websocket url: {}", websocket_url);

@@ -5,6 +5,8 @@
 
 #include <fstream>
 
+#include <spdlog/spdlog.h>
+
 #include "LidarDevice.hpp"
 
 namespace car::system::lidar {
@@ -13,6 +15,7 @@ namespace car::system::lidar {
 	public:
 		LidarDummy()
 		{
+			spdlog::warn("Currently using the LidarDummy");
 		};
 
 		void initialize() const override {};
