@@ -15,4 +15,15 @@ curl -fsSL https://xmake.io/shget.text | bash
 source ~/.xmake/profile
 ```
 
+Run the following commands before cross compilation:
+```
+sudo apt update
+sudo apt upgrade
+sudo apt dist-upgrade
+```
+or
+`sudo apt update && sudo apt upgrade && sudo apt dist-upgrade`
+
+Afterwards run `chmod +x ./raspberry_pi` on the new executable
+
 Use [CyberDuck](https://cyberduck.io/) to copy the raspberry_pi folder.
