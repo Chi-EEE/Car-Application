@@ -35,7 +35,7 @@ app/raspberry_pi/src/car/system/movement/wheels/FrontWheel.cxx:27:3: warning: Me
   FrontWheel(std::shared_ptr<PCA9685> pwm, int channel) : pwm(pwm), channel(channel) {
   ^
 app/raspberry_pi/src/car/system/movement/wheels/RearWheel.cxx:22:3: warning: Member variable 'RearWheel::cali_forward' is not initialized in the constructor. [uninitMemberVar]
-  RearWheel(std::shared_ptr<PCA9865> pwm, std::unique_ptr<TB6612> motor) :
+  RearWheel(std::shared_ptr<PCA9685> pwm, std::unique_ptr<TB6612> motor) :
   ^
 app/raspberry_pi/src/car/system/movement/MovementSystem.cxx:37:8: performance:inconclusive: Technically the member function 'car::system::movement::MovementSystem::start' can be static (but you may consider moving to unnamed namespace). [functionStatic]
   void start()
@@ -43,30 +43,27 @@ app/raspberry_pi/src/car/system/movement/MovementSystem.cxx:37:8: performance:in
 app/raspberry_pi/src/car/system/movement/MovementSystem.cxx:41:8: performance:inconclusive: Technically the member function 'car::system::movement::MovementSystem::terminate' can be static (but you may consider moving to unnamed namespace). [functionStatic]
   void terminate() {
        ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:24:13: performance:inconclusive: Technically the member function 'car::display::CarConsole::MainComponent' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+app/raspberry_pi/src/car/system/movement/MovementSystem.cxx:44:8: performance:inconclusive: Technically the member function 'car::system::movement::MovementSystem::move' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+  void move(const MoveCommand& move_command) {
+       ^
+app/raspberry_pi/src/car/system/movement/MovementSystem.cxx:48:8: performance:inconclusive: Technically the member function 'car::system::movement::MovementSystem::turn' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+  void turn(const TurnCommand& turn_command) {
+       ^
+app/raspberry_pi/src/car/display/CarConsole.cxx:23:13: performance:inconclusive: Technically the member function 'car::display::CarConsole::MainComponent' can be static (but you may consider moving to unnamed namespace). [functionStatic]
   Component MainComponent(std::function<void()> show_exit_modal) {
             ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:43:13: performance:inconclusive: Technically the member function 'car::display::CarConsole::ExitModalComponent' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+app/raspberry_pi/src/car/display/CarConsole.cxx:42:13: performance:inconclusive: Technically the member function 'car::display::CarConsole::ExitModalComponent' can be static (but you may consider moving to unnamed namespace). [functionStatic]
   Component ExitModalComponent(std::function<void()> hide_exit_modal,
             ^
 app/raspberry_pi/src/car/system/messaging/MessagingSystem.cxx:29:3: style: Class 'MessagingSystem' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
   MessagingSystem(const std::string& websocket_url) : websocket_url(websocket_url) {
   ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:62:3: style: Class 'CarConsole' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+app/raspberry_pi/src/car/display/CarConsole.cxx:61:3: style: Class 'CarConsole' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
   CarConsole(std::unique_ptr<CarSystem> car_system) : car_system(std::move(car_system)) {
   ^
-app/raspberry_pi/src/car/system/CarSystem.h:33:8: performance:inconclusive: Technically the member function 'car::system::CarSystem::move' can be static (but you may consider moving to unnamed namespace). [functionStatic]
-  void move(const MoveCommand& move_command);
-       ^
-app/raspberry_pi/src/car/system/CarSystem.cpp:64:18: note: Technically the member function 'car::system::CarSystem::move' can be static (but you may consider moving to unnamed namespace).
- void CarSystem::move(const MoveCommand& move_command)
-                 ^
-app/raspberry_pi/src/car/system/CarSystem.h:33:8: note: Technically the member function 'car::system::CarSystem::move' can be static (but you may consider moving to unnamed namespace).
-  void move(const MoveCommand& move_command);
-       ^
-app/raspberry_pi/src/car/system/lidar/LidarScanner.cxx:20:112: error: Member variable 'enabled' is initialized by itself. [selfInitialization]
-  LidarScanner(const std::string &lidar_port, const bool &enabled) : lidar(RPLidar::create(lidar_port).value()), enabled(enabled)
-                                                                                                               ^
+app/raspberry_pi/src/car/system/lidar/LidarScanner.cxx:20:3: style: Class 'LidarScanner' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  LidarScanner(const std::string &lidar_port) : lidar(RPLidar::create(lidar_port).value())
+  ^
 app/raspberry_pi/src/car/system/messaging/commands/MoveCommand.cxx:9:7: style: struct member 'MoveCommand::speed' is never used. [unusedStructMember]
   int speed;
       ^
