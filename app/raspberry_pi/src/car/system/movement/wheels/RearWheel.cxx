@@ -19,9 +19,9 @@ namespace car::system::movement::wheels
 		static constexpr int PWM_A = 4;
 		static constexpr int PWM_B = 5;
 	public:
-		RearWheel(std::shared_ptr<PCA9865> pwm, std::unique_ptr<TB6612> motor) :
+		RearWheel(std::shared_ptr<PCA9685> pwm, std::unique_ptr<TB6612> motor) :
 			pwm(pwm),
-			motor(motor)
+			motor(std::move(motor))
 		{
 			this->forward_A = true;
 

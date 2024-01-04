@@ -17,7 +17,7 @@ namespace car::system::lidar
 	class LidarScanner : public LidarDevice
 	{
 	public:
-		LidarScanner(const std::string &lidar_port, const bool &enabled) : lidar(RPLidar::create(lidar_port).value()), enabled(enabled)
+		LidarScanner(const std::string &lidar_port) : lidar(RPLidar::create(lidar_port).value())
 		{
 		};
 

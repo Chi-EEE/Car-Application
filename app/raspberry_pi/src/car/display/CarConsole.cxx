@@ -1,5 +1,5 @@
-#ifndef CARCONSOLE_H
-#define CARCONSOLE_H
+#ifndef CARCONSOLE_CXX
+#define CARCONSOLE_CXX
 
 #pragma once
 
@@ -15,9 +15,8 @@
 using namespace car::system;
 using namespace ftxui;
 
-auto button_style = ButtonOption::Animated();
-
 namespace car::display {
+	static auto button_style = ButtonOption::Animated();
 	class CarConsole
 	{
 	public:

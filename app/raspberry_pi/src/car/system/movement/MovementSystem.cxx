@@ -41,6 +41,14 @@ namespace car::system::movement {
 		void terminate() {
 		}
 
+		void move(const MoveCommand& move_command) {
+
+		}
+
+		void turn(const TurnCommand& turn_command) {
+
+		}
+
 		~MovementSystem() {
 		};
 

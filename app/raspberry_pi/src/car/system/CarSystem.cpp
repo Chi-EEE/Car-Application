@@ -63,6 +63,7 @@ namespace car::system {
 
 	void CarSystem::move(const MoveCommand& move_command)
 	{
+		this->movement_system->move(move_command);
 	}
 
 	void CarSystem::turn(const TurnCommand& turn_command)

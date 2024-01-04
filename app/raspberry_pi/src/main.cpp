@@ -3,7 +3,7 @@
 
 #include <fmt/format.h>
 
-#include "global/Config.cxx"
+#include "global/Config.hpp"
 
 #include "car/display/CarConsole.cxx"
 
