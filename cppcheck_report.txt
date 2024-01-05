@@ -61,8 +61,8 @@ app/raspberry_pi/src/car/system/messaging/MessagingSystem.cxx:29:3: style: Class
 app/raspberry_pi/src/car/display/CarConsole.cxx:62:3: style: Class 'CarConsole' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
   CarConsole(std::unique_ptr<CarSystem> car_system) : car_system(std::move(car_system)) {
   ^
-app/raspberry_pi/src/car/system/lidar/LidarScanner.cxx:20:3: style: Class 'LidarScanner' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
-  LidarScanner(const std::string &lidar_port) : lidar(RPLidar::create(lidar_port).value())
+app/raspberry_pi/src/car/system/lidar/LidarScanner.cxx:34:3: style: Class 'LidarScanner' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  LidarScanner(std::unique_ptr<RPLidar> lidar) : lidar(std::move(lidar)){};
   ^
 app/raspberry_pi/src/car/system/messaging/commands/MoveCommand.cxx:9:7: style: struct member 'MoveCommand::speed' is never used. [unusedStructMember]
   int speed;
