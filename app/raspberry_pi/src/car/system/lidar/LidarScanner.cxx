@@ -9,6 +9,7 @@
 
 #include <RPLidar.h>
 #include <spdlog/spdlog.h>
+#include <tl/expected.hpp>
 
 using namespace rplidar;
 
@@ -17,9 +18,20 @@ namespace car::system::lidar
 	class LidarScanner : public LidarDevice
 	{
 	public:
-		LidarScanner(const std::string &lidar_port) : lidar(RPLidar::create(lidar_port).value())
+		static tl::expected<std::unique_ptr<LidarScanner>, nullptr_t> create(const std::string &lidar_port)
 		{
-		};
+			auto maybe_lidar = RPLidar::create(lidar_port);
+			if (maybe_lidar.has_value())
+			{
+				return std::make_unique<LidarScanner>(std::move(maybe_lidar.value()));
+			}
+			else
+			{
+				return tl::make_unexpected(nullptr);
+			}
+		}
+		
+		LidarScanner(std::unique_ptr<RPLidar> lidar) : lidar(std::move(lidar)){};
 
 		~LidarScanner(){};
 

@@ -36,12 +36,17 @@ int main()
 	using namespace rplidar;
 
 	// spdlog::set_level(spdlog::level::off);
-	
+
 	std::string websocket_url = getWebSocketUrl();
 	spdlog::info("Got websocket url: {}", websocket_url);
 
-	//std::unique_ptr<LidarDummy> scanner = std::make_unique<LidarDummy>();
-	std::unique_ptr<LidarScanner> scanner = std::make_unique<LidarScanner>(GET_CONFIG_VALUE(lidar_port));
+	std::unique_ptr<LidarDummy> scanner = std::make_unique<LidarDummy>();
+	// auto maybe_scanner = LidarScanner::create(GET_CONFIG_VALUE(lidar_port));
+	// if (!maybe_scanner.has_value())
+	// {
+	// 	spdlog::error("Unable to connect to the Lidar Scanner");
+	// }
+	// std::unique_ptr<LidarScanner> &scanner = maybe_scanner.value();
 
 	std::unique_ptr<MessagingSystem> messaging_system = std::make_unique<MessagingSystem>(websocket_url);
 
@@ -51,8 +56,7 @@ int main()
 		websocket_url,
 		std::move(scanner),
 		std::move(messaging_system),
-		std::move(movement_system)
-	);
+		std::move(movement_system));
 
 	// The CarConsole object will display the UI and handle user input:
 	CarConsole car_console(std::move(car_system));
