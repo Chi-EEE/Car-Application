@@ -1,3 +1,4 @@
+#ifdef __linux__
 #ifndef REARWHEEL_CXX
 #define REARWHEEL_CXX
 
@@ -91,4 +92,5 @@ namespace car::system::movement::wheels
 	};
 } // namespace car::system::movement::wheels
 
+#endif
 #endif

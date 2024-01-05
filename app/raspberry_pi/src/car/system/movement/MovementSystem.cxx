@@ -5,34 +5,26 @@
 
 #include <memory>
 
-#include "PCA9685.h"
-
 #include "../messaging/commands/MoveCommand.cxx"
 #include "../messaging/commands/TurnCommand.cxx"
 
-#include "wheels/FrontWheel.cxx"
-#include "wheels/RearWheel.cxx"
+#include "controller/AbstractWheelController.cxx"
 
+using namespace car::system::movement::controller;
 using namespace car::system::messaging::commands;
 
 namespace car::system::movement {
-    constexpr int MIN_PULSE_WIDTH = 900;
-    constexpr int MAX_PULSE_WIDTH = 2100;
-    constexpr int FREQUENCY = 50;
-
-    class MovementSystem
+	class MovementSystem
 	{
 	public:
-        MovementSystem() {
+		MovementSystem(std::unique_ptr<AbstractWheelController> wheel_controller) : wheel_controller(std::move(wheel_controller))
+		{
 		};
 
 		void initialize()
 		{
-            this->pwm->init(1, 0x40);
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            this->pwm->setPWMFreq(FREQUENCY);
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        }
+			this->wheel_controller->initialize();
+		}
 
 		void start()
 		{
@@ -42,18 +34,18 @@ namespace car::system::movement {
 		}
 
 		void move(const MoveCommand& move_command) {
-
+			this->wheel_controller->move(move_command);
 		}
 
 		void turn(const TurnCommand& turn_command) {
-
+			this->wheel_controller->turn(turn_command);
 		}
 
 		~MovementSystem() {
 		};
 
 	private:
-        std::unique_ptr<PCA9685> pwm;
+		std::unique_ptr<AbstractWheelController> wheel_controller;
 	};
 };
 

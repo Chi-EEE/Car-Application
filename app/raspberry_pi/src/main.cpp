@@ -12,6 +12,8 @@
 #include "car/system/lidar/LidarScanner.cxx"
 #include "car/system/lidar/LidarDummy.cxx"
 
+#include "car/system/movement/controller/DummyWheelController.cxx"
+
 std::string getWebSocketUrl()
 {
 	std::optional<int> maybe_port = GET_CONFIG_VALUE(port);
@@ -33,6 +35,7 @@ int main()
 	using namespace car::system;
 	using namespace car::system::lidar;
 	using namespace car::system::messaging;
+	using namespace car::system::movement::controller;
 	using namespace rplidar;
 
 	// spdlog::set_level(spdlog::level::off);
@@ -50,7 +53,7 @@ int main()
 
 	std::unique_ptr<MessagingSystem> messaging_system = std::make_unique<MessagingSystem>(websocket_url);
 
-	std::unique_ptr<MovementSystem> movement_system = std::make_unique<MovementSystem>();
+	std::unique_ptr<MovementSystem> movement_system = std::make_unique<MovementSystem>(std::make_unique<DummyWheelController>());
 
 	auto car_system = std::make_unique<CarSystem>(
 		websocket_url,

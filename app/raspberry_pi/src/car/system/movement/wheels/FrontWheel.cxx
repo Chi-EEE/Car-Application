@@ -1,3 +1,4 @@
+#ifdef __linux__
 #ifndef FRONTWHEEL_CXX
 #define FRONTWHEEL_CXX
 
@@ -59,3 +60,4 @@ namespace car::system::movement::wheels
 } // namespace car::system::movement::wheels
 
 #endif
+#endif // __linux__

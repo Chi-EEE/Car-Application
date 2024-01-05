@@ -109,7 +109,10 @@
 			"shared_mutex": "cpp",
 			"cinttypes": "cpp",
 			"filesystem": "cpp",
-			"variant": "cpp"
+			"variant": "cpp",
+			"complex": "cpp",
+			"queue": "cpp",
+			"ranges": "cpp"
 		}
 	}
 }
