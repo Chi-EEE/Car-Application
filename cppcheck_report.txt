@@ -50,15 +50,15 @@ app/raspberry_pi/src/car/system/movement/MovementSystem.cxx:48:8: performance:in
   void turn(const TurnCommand& turn_command) {
        ^
 app/raspberry_pi/src/car/display/CarConsole.cxx:23:13: performance:inconclusive: Technically the member function 'car::display::CarConsole::MainComponent' can be static (but you may consider moving to unnamed namespace). [functionStatic]
-  Component MainComponent(std::function<void()> show_exit_modal) {
+  Component MainComponent(std::function<void()> start_car_system, std::function<void()> show_exit_modal) {
             ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:42:13: performance:inconclusive: Technically the member function 'car::display::CarConsole::ExitModalComponent' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+app/raspberry_pi/src/car/display/CarConsole.cxx:43:13: performance:inconclusive: Technically the member function 'car::display::CarConsole::ExitModalComponent' can be static (but you may consider moving to unnamed namespace). [functionStatic]
   Component ExitModalComponent(std::function<void()> hide_exit_modal,
             ^
 app/raspberry_pi/src/car/system/messaging/MessagingSystem.cxx:29:3: style: Class 'MessagingSystem' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
   MessagingSystem(const std::string& websocket_url) : websocket_url(websocket_url) {
   ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:61:3: style: Class 'CarConsole' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+app/raspberry_pi/src/car/display/CarConsole.cxx:62:3: style: Class 'CarConsole' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
   CarConsole(std::unique_ptr<CarSystem> car_system) : car_system(std::move(car_system)) {
   ^
 app/raspberry_pi/src/car/system/lidar/LidarScanner.cxx:20:3: style: Class 'LidarScanner' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
