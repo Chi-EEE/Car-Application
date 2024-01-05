@@ -16,12 +16,13 @@ using namespace car::system;
 using namespace ftxui;
 
 namespace car::display {
-	static auto button_style = ButtonOption::Animated();
+	static const ButtonOption button_style = ButtonOption::Animated();
 	class CarConsole
 	{
 	public:
-		Component MainComponent(std::function<void()> show_exit_modal) {
+		Component MainComponent(std::function<void()> start_car_system, std::function<void()> show_exit_modal) {
 			auto component = Container::Vertical({
+				Button("Start Car Application", start_car_system, button_style),
 				Button("Quit", show_exit_modal, button_style),
 				});
 			// Polish how the two buttons are rendered:
@@ -69,16 +70,18 @@ namespace car::display {
 
 			auto show_exit_modal = [&] { exit_modal_shown = true; };
 			auto hide_exit_modal = [&] { exit_modal_shown = false; };
+			
+			auto start_car_system = [&] { this->car_system->start(); };
+			
 			auto exit = screen.ExitLoopClosure();
 
-			auto main_component = MainComponent(show_exit_modal);
+			auto main_component = MainComponent(start_car_system, show_exit_modal);
 			auto modal_component = ExitModalComponent(hide_exit_modal, exit);
 			main_component |= Modal(modal_component, &exit_modal_shown);
 
 			Loop loop(&screen, main_component);
 
-			this->car_system->initalize();
-			this->car_system->start();
+			this->car_system->initialize();
 			// The main loop:
 			while (!loop.HasQuitted()) {
 				this->car_system->update();

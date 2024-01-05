@@ -29,7 +29,7 @@ namespace car::system::messaging {
 		MessagingSystem(const std::string& websocket_url) : websocket_url(websocket_url) {
 		};
 
-		void initalize()
+		void initialize()
 		{
 			ix::initNetSystem();
 			this->websocket.setUrl(websocket_url);

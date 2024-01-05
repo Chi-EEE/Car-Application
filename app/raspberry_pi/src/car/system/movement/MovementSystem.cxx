@@ -26,7 +26,7 @@ namespace car::system::movement {
         MovementSystem() {
 		};
 
-		void initalize()
+		void initialize()
 		{
             this->pwm->init(1, 0x40);
             std::this_thread::sleep_for(std::chrono::milliseconds(100));

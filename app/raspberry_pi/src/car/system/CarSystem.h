@@ -24,7 +24,7 @@ namespace car::system {
 		CarSystem(const std::string& websocket_url, std::unique_ptr<LidarDevice> lidar_device, std::unique_ptr<MessagingSystem> messaging_system, std::unique_ptr<MovementSystem> movement_system);
 		~CarSystem();
 
-		void initalize();
+		void initialize();
 		void start();
 
 		void update();
@@ -38,6 +38,7 @@ namespace car::system {
 		std::unique_ptr<MessagingSystem> messaging_system;
 		std::unique_ptr<MovementSystem> movement_system;
 
+		bool running = false;
 		bool terminated = false;
 	};
 }
