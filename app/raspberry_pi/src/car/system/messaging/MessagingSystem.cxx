@@ -100,7 +100,7 @@ namespace car::system::messaging {
 			}
 		}
 
-		void terminate() {
+		void stop() {
 			this->websocket.stop();
 			ix::uninitNetSystem();
 		}

@@ -68,7 +68,7 @@ namespace car::system::lidar
 			return scanGenerator();
 		};
 
-		void terminate() const override
+		void stop() const override
 		{
 			this->lidar->stop();
 			this->lidar->stop_motor();

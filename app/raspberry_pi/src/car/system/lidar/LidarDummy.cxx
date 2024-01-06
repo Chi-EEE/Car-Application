@@ -28,7 +28,7 @@ namespace car::system::lidar {
 			return measures;
 		};
 
-		void terminate() const override {};
+		void stop() const override {};
 
 	private:
 

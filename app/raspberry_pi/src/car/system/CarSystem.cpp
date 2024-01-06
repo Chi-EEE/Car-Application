@@ -12,7 +12,7 @@ namespace car::system
 
 	CarSystem::~CarSystem()
 	{
-		this->terminate();
+		this->stop();
 	}
 
 	void CarSystem::initialize()
@@ -29,9 +29,21 @@ namespace car::system
 
 	void CarSystem::start()
 	{
-		this->messaging_system->start();
-		this->lidar_device->start();
-		this->running = true;
+		if (!this->running) {
+			this->messaging_system->start();
+			this->lidar_device->start();
+			this->running = true;
+		}
+	}
+
+	void CarSystem::stop()
+	{
+		if (!this->running)
+		{
+			this->messaging_system->stop();
+			this->lidar_device->stop();
+			this->running = false;
+		}
 	}
 
 	void CarSystem::update()
@@ -52,16 +64,6 @@ namespace car::system
 				});
 		}
 		this->messaging_system->sendMessage(output_json.dump());
-	}
-
-	void CarSystem::terminate()
-	{
-		if (!this->terminated)
-		{
-			this->terminated = true;
-			this->lidar_device->terminate();
-			this->messaging_system->terminate();
-		}
 	}
 
 	void CarSystem::move(const MoveCommand &move_command)

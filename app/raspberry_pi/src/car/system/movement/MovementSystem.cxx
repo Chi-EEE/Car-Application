@@ -30,7 +30,7 @@ namespace car::system::movement {
 		{
 		}
 
-		void terminate() {
+		void stop() {
 		}
 
 		void move(const MoveCommand& move_command) {

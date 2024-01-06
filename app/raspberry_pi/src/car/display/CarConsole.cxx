@@ -16,14 +16,14 @@ using namespace car::system;
 using namespace ftxui;
 
 namespace car::display {
-	static const ButtonOption button_style = ButtonOption::Animated();
+	static const ButtonOption animated_button_style = ButtonOption::Animated();
 	class CarConsole
 	{
 	public:
-		Component MainComponent(std::function<void()> start_car_system, std::function<void()> show_exit_modal) {
+		inline Component MainComponent(Component main_button, std::function<void()> show_exit_modal) {
 			auto component = Container::Vertical({
-				Button("Start Car Application", start_car_system, button_style),
-				Button("Quit", show_exit_modal, button_style),
+				main_button,
+				Button("Quit", show_exit_modal, animated_button_style),
 				});
 			// Polish how the two buttons are rendered:
 			component |= Renderer([&](Element inner) {
@@ -40,11 +40,11 @@ namespace car::display {
 			return component;
 		}
 
-		Component ExitModalComponent(std::function<void()> hide_exit_modal,
+		inline Component ExitModalComponent(std::function<void()> hide_exit_modal,
 			std::function<void()> exit) {
 			auto component = Container::Vertical({
-				Button("No", hide_exit_modal, button_style),
-				Button("Yes", exit, button_style),
+				Button("No", hide_exit_modal, animated_button_style),
+				Button("Yes", exit, animated_button_style),
 				});
 			// Polish how the two buttons are rendered:
 			component |= Renderer([&](Element inner) {
@@ -70,18 +70,40 @@ namespace car::display {
 
 			auto show_exit_modal = [&] { exit_modal_shown = true; };
 			auto hide_exit_modal = [&] { exit_modal_shown = false; };
-			
-			auto start_car_system = [&] { this->car_system->start(); };
-			
+
+			bool debounce = false;
+			bool button_pressed = false;
+			std::string main_button_text = "Start Car Application";
+
+			auto main_button_lambda = [&] {
+				if (debounce) return;
+				debounce = true;
+				button_pressed = !button_pressed;
+				std::cout << "Button pressed: " << button_pressed << std::endl;
+				if (button_pressed) {
+					main_button_text = "Connecting...";
+					this->car_system->start();
+					main_button_text = "Stop Car Application";
+				}
+				else {
+					main_button_text = "Disconnecting...";
+					this->car_system->stop();
+					main_button_text = "Start Car Application";
+				}
+				debounce = false;
+				};
+			auto main_button = Button(&main_button_text, main_button_lambda, animated_button_style);
+
 			auto exit = screen.ExitLoopClosure();
 
-			auto main_component = MainComponent(start_car_system, show_exit_modal);
+			auto main_component = MainComponent(main_button, show_exit_modal);
 			auto modal_component = ExitModalComponent(hide_exit_modal, exit);
 			main_component |= Modal(modal_component, &exit_modal_shown);
 
 			Loop loop(&screen, main_component);
 
 			this->car_system->initialize();
+
 			// The main loop:
 			while (!loop.HasQuitted()) {
 				this->car_system->update();
@@ -89,7 +111,7 @@ namespace car::display {
 			}
 
 			// Called after the loop ended.
-			this->car_system->terminate();
+			this->car_system->stop();
 		};
 
 	private:

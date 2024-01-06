@@ -26,9 +26,9 @@ namespace car::system {
 
 		void initialize();
 		void start();
+		void stop();
 
 		void update();
-		void terminate();
 
 		void move(const MoveCommand& move_command);
 		void turn(const TurnCommand& turn_command);
@@ -39,7 +39,6 @@ namespace car::system {
 		std::unique_ptr<MovementSystem> movement_system;
 
 		bool running = false;
-		bool terminated = false;
 	};
 }
 
