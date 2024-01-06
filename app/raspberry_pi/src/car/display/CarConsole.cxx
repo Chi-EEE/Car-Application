@@ -10,6 +10,8 @@
 #include <ftxui/dom/elements.hpp>
 #include <ftxui/component/loop.hpp> // ftxui::Loop
 
+#include <sys_info/ProcessInfo.h>
+
 #include "../system/CarSystem.h"
 
 using namespace car::system;
@@ -79,7 +81,6 @@ namespace car::display {
 				if (debounce) return;
 				debounce = true;
 				button_pressed = !button_pressed;
-				std::cout << "Button pressed: " << button_pressed << std::endl;
 				if (button_pressed) {
 					main_button_text = "Connecting...";
 					this->car_system->start();
@@ -92,6 +93,7 @@ namespace car::display {
 				}
 				debounce = false;
 				};
+
 			auto main_button = Button(&main_button_text, main_button_lambda, animated_button_style);
 
 			auto exit = screen.ExitLoopClosure();

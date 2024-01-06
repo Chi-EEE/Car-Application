@@ -15,7 +15,8 @@ add_requires("nlohmann_json")
 add_requires("spdlog")
 add_requires("fmt")
 
-add_requires("imath")
+-- Get System Info
+add_requires("sys_info")
 
 if is_plat("linux", "macosx") then
     -- For the SunFounder Car
@@ -32,11 +33,14 @@ target("raspberry_pi")
     set_kind("binary")
     set_license("LGPL-2.1")
             
+    add_packages("nlohmann_json")
     add_packages("spdlog")
     add_packages("fmt")
-    add_packages("nlohmann_json")
-    add_packages("imath")
+
     add_packages("tl_expected")
+
+    -- Get System Info
+    add_packages("sys_info")
 
     -- Messaging System
     add_packages("ixwebsocket")
