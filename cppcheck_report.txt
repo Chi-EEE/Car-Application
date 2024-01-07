@@ -37,10 +37,10 @@ app/raspberry_pi/src/car/system/movement/MovementSystem.cxx:29:8: performance:in
 app/raspberry_pi/src/car/system/movement/MovementSystem.cxx:33:8: performance:inconclusive: Technically the member function 'car::system::movement::MovementSystem::stop' can be static (but you may consider moving to unnamed namespace). [functionStatic]
   void stop() {
        ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:25:20: performance:inconclusive: Technically the member function 'car::display::CarConsole::MainComponent' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+app/raspberry_pi/src/car/display/CarConsole.cxx:23:20: performance:inconclusive: Technically the member function 'car::display::CarConsole::MainComponent' can be static (but you may consider moving to unnamed namespace). [functionStatic]
   inline Component MainComponent(Component main_button, std::function<void()> show_exit_modal) {
                    ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:45:20: performance:inconclusive: Technically the member function 'car::display::CarConsole::ExitModalComponent' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+app/raspberry_pi/src/car/display/CarConsole.cxx:43:20: performance:inconclusive: Technically the member function 'car::display::CarConsole::ExitModalComponent' can be static (but you may consider moving to unnamed namespace). [functionStatic]
   inline Component ExitModalComponent(std::function<void()> hide_exit_modal,
                    ^
 app/raspberry_pi/src/car/system/messaging/MessagingSystem.cxx:29:3: style: Class 'MessagingSystem' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
@@ -49,34 +49,34 @@ app/raspberry_pi/src/car/system/messaging/MessagingSystem.cxx:29:3: style: Class
 app/raspberry_pi/src/car/system/movement/MovementSystem.cxx:20:3: style: Class 'MovementSystem' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
   MovementSystem(std::unique_ptr<AbstractWheelController> wheel_controller) : wheel_controller(std::move(wheel_controller))
   ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:64:3: style: Class 'CarConsole' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+app/raspberry_pi/src/car/display/CarConsole.cxx:62:3: style: Class 'CarConsole' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
   CarConsole(std::unique_ptr<CarSystem> car_system) : car_system(std::move(car_system)) {
   ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:94:14: style: Variable 'debounce' is reassigned a value before the old one has been used. [redundantAssignment]
+app/raspberry_pi/src/car/display/CarConsole.cxx:93:14: style: Variable 'debounce' is reassigned a value before the old one has been used. [redundantAssignment]
     debounce = false;
              ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:82:14: note: debounce is assigned
+app/raspberry_pi/src/car/display/CarConsole.cxx:80:14: note: debounce is assigned
     debounce = true;
              ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:94:14: note: debounce is overwritten
+app/raspberry_pi/src/car/display/CarConsole.cxx:93:14: note: debounce is overwritten
     debounce = false;
              ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:87:23: style: Variable 'main_button_text' is reassigned a value before the old one has been used. [redundantAssignment]
+app/raspberry_pi/src/car/display/CarConsole.cxx:86:23: style: Variable 'main_button_text' is reassigned a value before the old one has been used. [redundantAssignment]
      main_button_text = "Stop Car Application";
                       ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:85:23: note: main_button_text is assigned
+app/raspberry_pi/src/car/display/CarConsole.cxx:84:23: note: main_button_text is assigned
      main_button_text = "Connecting...";
                       ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:87:23: note: main_button_text is overwritten
+app/raspberry_pi/src/car/display/CarConsole.cxx:86:23: note: main_button_text is overwritten
      main_button_text = "Stop Car Application";
                       ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:92:23: style: Variable 'main_button_text' is reassigned a value before the old one has been used. [redundantAssignment]
+app/raspberry_pi/src/car/display/CarConsole.cxx:91:23: style: Variable 'main_button_text' is reassigned a value before the old one has been used. [redundantAssignment]
      main_button_text = "Start Car Application";
                       ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:90:23: note: main_button_text is assigned
+app/raspberry_pi/src/car/display/CarConsole.cxx:89:23: note: main_button_text is assigned
      main_button_text = "Disconnecting...";
                       ^
-app/raspberry_pi/src/car/display/CarConsole.cxx:92:23: note: main_button_text is overwritten
+app/raspberry_pi/src/car/display/CarConsole.cxx:91:23: note: main_button_text is overwritten
      main_button_text = "Start Car Application";
                       ^
 app/raspberry_pi/src/car/system/lidar/LidarScanner.cxx:34:3: style: Class 'LidarScanner' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
