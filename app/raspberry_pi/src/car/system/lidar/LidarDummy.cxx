@@ -30,6 +30,7 @@ namespace car::system::lidar {
 
 		void stop() const override {};
 
+		void disconnect() const override {};
 	private:
 
 	};

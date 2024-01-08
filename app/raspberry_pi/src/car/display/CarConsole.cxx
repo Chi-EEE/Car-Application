@@ -10,6 +10,8 @@
 #include <ftxui/dom/elements.hpp>
 #include <ftxui/component/loop.hpp> // ftxui::Loop
 
+#include <nod/nod.hpp>
+
 #include "../system/CarSystem.h"
 
 using namespace car::system;
@@ -92,6 +94,7 @@ namespace car::display {
 				}
 				debounce = false;
 				};
+
 			auto main_button = Button(&main_button_text, main_button_lambda, animated_button_style);
 
 			auto exit = screen.ExitLoopClosure();
@@ -100,17 +103,124 @@ namespace car::display {
 			auto modal_component = ExitModalComponent(hide_exit_modal, exit);
 			main_component |= Modal(modal_component, &exit_modal_shown);
 
-			Loop loop(&screen, main_component);
+			auto renderer_line_block = Renderer([&] {
+				auto c = Canvas(100, 100);
+				for (auto& point : this->car_system->get_scan_data()) {
+					const double angle = point.angle;
+					const double distance = point.distance;
+					const double angleInRadians = angle * (3.14159265f / 180.0f);
+					const int x = distance * std::cos(angleInRadians);
+					const int y = distance * std::sin(angleInRadians);
+					c.DrawBlockLine(50, 50, x, y, Color::Blue);
+				}
+				return canvas(std::move(c));
+				}
+			);
+
+
+			nod::signal<void(bool)> lidar_signal;
+
+			bool loading = false;
+			std::string lidar_status = "Lidar Status: Disconnected";
+			bool lidar_enabled = false;
+			auto lidar_checkbox_option = CheckboxOption::Simple();
+			lidar_checkbox_option.on_change = [&]
+				{
+					if (loading) {
+						lidar_enabled = !lidar_enabled;
+						return;
+					}
+					loading = true;
+					if (lidar_enabled) {
+						lidar_status = "Lidar Status: Connecting...";
+					}
+					else {
+						lidar_status = "Lidar Status: Disconnecting...";
+					}
+					lidar_signal(lidar_enabled);
+				};
+			auto lidar_checkbox = Checkbox(&lidar_status, &lidar_enabled, lidar_checkbox_option);
+
+			int image_index = 0;
+			auto lidar_spinner = Renderer([&] {return spinner(18, image_index); });
+			auto settings_container = Container::Vertical({
+				lidar_checkbox,
+				Maybe(lidar_spinner, &loading),
+				}
+			);
+
+			int selected_tab = 0;
+			std::vector<std::string> tab_titles = {
+				"Main",
+				"Scan Map",
+				"Settings",
+			};
+
+			auto tab_selection = Toggle(&tab_titles, &selected_tab);
+
+			auto tab_content = Container::Tab(
+				{
+					main_component,
+					renderer_line_block,
+					settings_container,
+				}
+				, &selected_tab
+			);
+
+			auto main_container = Container::Vertical(
+				{
+				tab_selection,
+				tab_content,
+				}
+			);
+
+			auto main_renderer = Renderer(main_container, [&]
+				{
+					return vbox({
+						text("Car Application") | bold | hcenter,
+						tab_selection->Render(),
+						tab_content->Render() | flex,
+						}
+					);
+				}
+			);
 
 			this->car_system->initialize();
 
-			// The main loop:
-			while (!loop.HasQuitted()) {
-				this->car_system->update();
-				loop.RunOnce();
-			}
+			lidar_signal.connect([&](bool connected)
+				{
+					if (connected) {
+						this->car_system->start_lidar_device();
+						lidar_status = "Lidar Status: Connected";
+						loading = false;
+					}
+					else {
+						this->car_system->stop_lidar_device();
+						lidar_status = "Lidar Status: Disconnected";
+						loading = false;
+					}
+				}
+			);
 
-			// Called after the loop ended.
+			std::atomic<bool> refresh_ui_continue = true;
+			std::thread refresh_ui([&]
+				{
+					while (refresh_ui_continue) {
+						using namespace std::chrono_literals;
+						std::this_thread::sleep_for(0.05s);
+						// The |shift| variable belong to the main thread. `screen.Post(task)`
+						// will execute the update on the thread where |screen| lives (e.g. the
+						// main thread). Using `screen.Post(task)` is threadsafe.
+						screen.Post([&] { image_index++; });
+						// After updating the state, request a new frame to be drawn. This is done
+						// by simulating a new "custom" event to be handled.
+						screen.Post(Event::Custom);
+					}
+				}
+			);
+
+			screen.Loop(main_renderer);
+
 			this->car_system->stop();
 		};
 

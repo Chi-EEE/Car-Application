@@ -33,10 +33,17 @@ namespace car::system {
 		void move(const MoveCommand& move_command);
 		void turn(const TurnCommand& turn_command);
 
+		void start_lidar_device();
+		void stop_lidar_device();
+
+		const std::vector<Measure>& get_scan_data() const { return this->scan_data; }
+
 	private:
 		std::unique_ptr<LidarDevice> lidar_device;
 		std::unique_ptr<MessagingSystem> messaging_system;
 		std::unique_ptr<MovementSystem> movement_system;
+
+		std::vector<Measure> scan_data;
 
 		bool running = false;
 	};
