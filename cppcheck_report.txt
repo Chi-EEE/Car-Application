@@ -1,0 +1,206 @@
+app/backend/src/user/User.hpp:27:20: style:inconclusive: Member variable 'User::chat_room_name' is in the wrong place in the initializer list. [initializerList]
+ const std::string chat_room_name;
+                   ^
+app/backend/src/user/User.hpp:14:146: note: Member variable 'User::chat_room_name' is in the wrong place in the initializer list.
+ User(drogon::SubscriberID id, drogon::WebSocketConnectionPtr conn, const std::string chat_room_name, UserType type) : id(id), connection(conn), chat_room_name(chat_room_name), type(type){};
+                                                                                                                                                 ^
+app/backend/src/user/User.hpp:27:20: note: Member variable 'User::chat_room_name' is in the wrong place in the initializer list.
+ const std::string chat_room_name;
+                   ^
+app/backend/src/room/Room.hpp:15:2: style: Class 'Room' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+ Room(std::shared_ptr<User> owner) : owner(owner)
+ ^
+app/backend/src/user/User.hpp:14:87: performance: Function parameter 'chat_room_name' should be passed by const reference. [passedByValue]
+ User(drogon::SubscriberID id, drogon::WebSocketConnectionPtr conn, const std::string chat_room_name, UserType type) : id(id), connection(conn), chat_room_name(chat_room_name), type(type){};
+                                                                                      ^
+app/backend/src/controllers/AdminController.hpp:38:26: style: Variable 'now' is assigned a value that is never used. [unreadVariable]
+ const trantor::Date now = trantor::Date::date();
+                         ^
+app/backend/src/user/default/default_RoomWebSocket.cpp:87:158: style: Parameter 'room' can be declared with const [constParameter]
+void RoomWebSocket::handleBehaviourTree(const drogon::WebSocketConnectionPtr &wsConnPtr, const std::string &message_data, User &user, std::shared_ptr<Room> &room)
+                                                                                                                                                             ^
+app/other/behaviour_tree/include/behaviour_tree/BehaviourTree.hpp:84:44: style:inconclusive: Member variable 'BehaviourTree::roots' is in the wrong place in the initializer list. [initializerList]
+  const std::vector<std::shared_ptr<Root>> roots;
+                                           ^
+app/other/behaviour_tree/include/behaviour_tree/BehaviourTree.hpp:17:113: note: Member variable 'BehaviourTree::roots' is in the wrong place in the initializer list.
+  BehaviourTree(unsigned int cycle_limit, std::vector<std::shared_ptr<Root>> roots) : cycle_limit(cycle_limit), roots(std::move(roots))
+                                                                                                                ^
+app/other/behaviour_tree/include/behaviour_tree/BehaviourTree.hpp:84:44: note: Member variable 'BehaviourTree::roots' is in the wrong place in the initializer list.
+  const std::vector<std::shared_ptr<Root>> roots;
+                                           ^
+app/other/behaviour_tree/include/behaviour_tree/Context.h:32:3: style: Class 'Context' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  Context(std::shared_ptr<BehaviourTree> behaviour_tree);
+  ^
+app/other/behaviour_tree/include/behaviour_tree/BehaviourTree.hpp:56:26: style: Checking if unsigned expression 'this->cycle_limit' is less than zero. [unsignedLessThanZero]
+   if (this->cycle_limit <= 0)
+                         ^
+app/other/behaviour_tree/include/behaviour_tree/Root.hpp:29:23: style: Local variable 'id' shadows outer variable [shadowVariable]
+   const std::string& id = this->getId();
+                      ^
+app/other/behaviour_tree/include/behaviour_tree/Root.hpp:43:15: note: Shadowed declaration
+  std::string id;
+              ^
+app/other/behaviour_tree/include/behaviour_tree/Root.hpp:29:23: note: Shadow variable
+   const std::string& id = this->getId();
+                      ^
+app/other/behaviour_tree/include/behaviour_tree/Root.hpp:18:20: performance: Function parameter 'id' should be passed by const reference. [passedByValue]
+  Root(std::string id, std::shared_ptr<node::Node> child) : id(id), child(std::move(child))
+                   ^
+app/other/behaviour_tree/include/behaviour_tree/BehaviourTree.hpp:26:5: style: Consider using std::find_if algorithm instead of a raw loop. [useStlAlgorithm]
+    {
+    ^
+app/other/behaviour_tree/include/behaviour_tree/BehaviourTree.hpp:48:5: style: Consider using std::find_if algorithm instead of a raw loop. [useStlAlgorithm]
+    {
+    ^
+app/other/behaviour_tree/include/behaviour_tree/BehaviourTree.hpp:75:9: style: Consider using std::accumulate algorithm instead of a raw loop. [useStlAlgorithm]
+    out += root->toString();
+        ^
+app/rpi/common/src/car/system/messaging/MessagingSystem.cpp:147:9: style: Exception should be caught by reference. [catchExceptionByValue]
+        catch (std::exception e)
+        ^
+app/rpi/common/src/car/system/messaging/MessagingSystem.cpp:30:64: performance: Function parameter 'message' should be passed by const reference. [passedByValue]
+        this->message_signal_.connect([this](const std::string message)
+                                                               ^
+app/rpi/common/src/car/system/messaging/MessagingSystem.cpp:32:70: performance: Function parameter 'message' should be passed by const reference. [passedByValue]
+        this->on_disconnect_signal_.connect([this](const std::string message)
+                                                                     ^
+app/rpi/common/src/car/system/messaging/MessagingSystem.cpp:181:38: warning: The lock is ineffective because the mutex is locked at the same scope as the mutex itself. [localMutex]
+        std::unique_lock<std::mutex> lock(mutex);
+                                     ^
+app/rpi/common/src/car/system/websocket/WebSocketManager.cpp:41:26: style: Variable 'uuid' is assigned a value that is never used. [unreadVariable]
+  const std::string uuid = this->general_websocket_->getUUID();
+                         ^
+app/rpi/common/src/car/system/websocket/client/GeneralWebSocket.cpp:98:32: warning: The lock is ineffective because the mutex is locked at the same scope as the mutex itself. [localMutex]
+  std::unique_lock<std::mutex> lock(mutex);
+                               ^
+app/rpi/common/tests/tb6612/test_rear_wheels.cpp:21:5: warning: Member variable 'BackWheels::cali_forward_A' is not initialized in the constructor. [uninitMemberVar]
+    BackWheels(const int &bus_number = 1) : left_wheel(std::make_unique<TB6612>(Motor_A, PWM_A)),
+    ^
+app/rpi/common/tests/tb6612/test_rear_wheels.cpp:21:5: warning: Member variable 'BackWheels::cali_forward_B' is not initialized in the constructor. [uninitMemberVar]
+    BackWheels(const int &bus_number = 1) : left_wheel(std::make_unique<TB6612>(Motor_A, PWM_A)),
+    ^
+app/rpi/tui/src/car/configuration/JsonConfiguration.cxx:25:3: style: Class 'JsonConfiguration' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  JsonConfiguration(std::string exe_dir) : exe_dir(exe_dir)
+  ^
+app/rpi/tui/src/car/configuration/JsonConfiguration.cxx:43:16: style: Local variable 'config_file_path' shadows outer variable [shadowVariable]
+   std::string config_file_path = exe_dir + "/" + this->config_file_path;
+               ^
+app/rpi/tui/src/car/configuration/JsonConfiguration.cxx:73:15: note: Shadowed declaration
+  std::string config_file_path;
+              ^
+app/rpi/tui/src/car/configuration/JsonConfiguration.cxx:43:16: note: Shadow variable
+   std::string config_file_path = exe_dir + "/" + this->config_file_path;
+               ^
+app/rpi/tui/src/car/configuration/JsonConfiguration.cxx:25:33: performance: Function parameter 'exe_dir' should be passed by const reference. [passedByValue]
+  JsonConfiguration(std::string exe_dir) : exe_dir(exe_dir)
+                                ^
+app/rpi/tui/src/car/configuration/JsonConfiguration.cxx:29:38: performance: Function parameter 'config_file_path' should be passed by const reference. [passedByValue]
+  void setConfigFilePath(std::string config_file_path)
+                                     ^
+app/rpi/tui/src/car/display/console/screen/SettingsScreen.cxx:129:22: style:inconclusive: Member variable 'SettingsScreen::settings_edit_config' is in the wrong place in the initializer list. [initializerList]
+  SettingsEditConfig settings_edit_config;
+                     ^
+app/rpi/tui/src/car/display/console/screen/SettingsScreen.cxx:34:4: note: Member variable 'SettingsScreen::settings_edit_config' is in the wrong place in the initializer list.
+   settings_edit_config(car_system, json_configuration)
+   ^
+app/rpi/tui/src/car/display/console/screen/SettingsScreen.cxx:129:22: note: Member variable 'SettingsScreen::settings_edit_config' is in the wrong place in the initializer list.
+  SettingsEditConfig settings_edit_config;
+                     ^
+app/rpi/tui/src/car/display/console/component/main/ConnectButton.cxx:51:13: style:inconclusive: Technically the member function 'car::display::console::component::main::ConnectButton::element' can be const. [functionConst]
+  Component element()
+            ^
+app/rpi/tui/src/car/display/console/screen/MainScreen.cxx:79:13: style:inconclusive: Technically the member function 'car::display::console::screen::MainScreen::element' can be const. [functionConst]
+  Component element()
+            ^
+app/rpi/tui/src/car/display/console/component/debug/DebugLidarCheckbox.cxx:47:13: style:inconclusive: Technically the member function 'car::display::console::component::debug::DebugLidarCheckbox::element' can be const. [functionConst]
+  Component element()
+            ^
+app/rpi/tui/src/car/display/console/component/debug/DebugLidarCheckbox.cxx:52:28: style:inconclusive: Technically the member function 'car::display::console::component::debug::DebugLidarCheckbox::getLidarMotorSignal' can be const. [functionConst]
+  nod::signal<void(bool)> &getLidarMotorSignal()
+                           ^
+app/rpi/tui/src/car/display/console/component/debug/DebugMovementRenderer.cxx:167:28: style:inconclusive: Technically the member function 'car::display::console::component::debug::DebugMovementRenderer::getRearWheelDirectionSignal' can be const. [functionConst]
+  nod::signal<void(bool)> &getRearWheelDirectionSignal()
+                           ^
+app/rpi/tui/src/car/display/console/component/main/MainExitModal.cxx:18:3: style: Class 'MainExitModal' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  MainExitModal(std::function<void()> exit) : exit(exit) {}
+  ^
+app/rpi/tui/src/car/display/console/component/debug/DebugMessagingTextbox.cxx:17:3: style: Class 'DebugMessagingTextbox' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  DebugMessagingTextbox(nod::signal<void(const std::string)> &message_signal) : message_signal(message_signal)
+  ^
+app/rpi/tui/src/car/display/console/screen/LoggingScreen.cxx:19:3: style: Class 'LoggingScreen' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  LoggingScreen(std::shared_ptr<logging::vector_sink_mt> vector_sink) : vector_sink(vector_sink){};
+  ^
+app/rpi/tui/src/car/display/startup/CarStartUp.h:22:14: performance:inconclusive: Technically the member function 'car::display::startup::CarStartUp::run' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+        void run();
+             ^
+app/rpi/tui/src/car/display/startup/CarStartUp.cpp:5:22: note: Technically the member function 'car::display::startup::CarStartUp::run' can be static (but you may consider moving to unnamed namespace).
+    void CarStartUp::run()
+                     ^
+app/rpi/tui/src/car/display/startup/CarStartUp.h:22:14: note: Technically the member function 'car::display::startup::CarStartUp::run' can be static (but you may consider moving to unnamed namespace).
+        void run();
+             ^
+app/rpi/tui/src/car/display/startup/CarStartUp.cpp:7:28: style: Variable 'screen' is assigned a value that is never used. [unreadVariable]
+  ScreenInteractive screen = ScreenInteractive::Fullscreen();
+                           ^
+app/test/src/LidarScanner.h:34:3: style: Class 'LidarScanner' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  LidarScanner(std::unique_ptr<RPLidar> lidar) : lidar(std::move(lidar)) {};
+  ^
+app/test/src/LidarScanner.h:49:16: style: Local variable 'scan_generator' shadows outer variable [shadowVariable]
+   const auto& scan_generator = std::get<std::function<std::vector<Measure>()>>(this->scan_generator);
+               ^
+app/test/src/LidarScanner.h:73:74: note: Shadowed declaration
+  mutable std::variant<std::function<std::vector<Measure>()>, nullptr_t> scan_generator = nullptr;
+                                                                         ^
+app/test/src/LidarScanner.h:49:16: note: Shadow variable
+   const auto& scan_generator = std::get<std::function<std::vector<Measure>()>>(this->scan_generator);
+               ^
+app/rpi/common/tests/tb6612/test_rear_wheels.cpp:89:0: style: The function 'caliLeft' is never used. [unusedFunction]
+
+^
+app/rpi/common/tests/tb6612/test_rear_wheels.cpp:105:0: style: The function 'caliOK' is never used. [unusedFunction]
+
+^
+app/rpi/common/tests/tb6612/test_rear_wheels.cpp:97:0: style: The function 'caliRight' is never used. [unusedFunction]
+
+^
+app/rpi/common/tests/tb6612/test_rear_wheels.cpp:80:0: style: The function 'calibration' is never used. [unusedFunction]
+
+^
+app/rpi/tui/src/car/configuration/JsonConfiguration.cxx:34:0: style: The function 'getConfigFilePath' is never used. [unusedFunction]
+
+^
+app/rpi/common/tests/tb6612/test_rear_wheels.cpp:58:0: style: The function 'getSpeed' is never used. [unusedFunction]
+
+^
+app/backend/src/controllers/RoomWebSocket.cpp:66:0: style: The function 'handleConnectionClosed' is never used. [unusedFunction]
+
+^
+app/backend/src/controllers/RoomWebSocket.cpp:27:0: style: The function 'handleNewConnection' is never used. [unusedFunction]
+
+^
+app/backend/src/controllers/RoomWebSocket.cpp:3:0: style: The function 'handleNewMessage' is never used. [unusedFunction]
+
+^
+app/rpi/daemon/src/main.cpp:169:0: style: The function 'on_reload' is never used. [unusedFunction]
+
+^
+app/rpi/daemon/src/main.cpp:43:0: style: The function 'on_start' is never used. [unusedFunction]
+
+^
+app/rpi/daemon/src/main.cpp:163:0: style: The function 'on_stop' is never used. [unusedFunction]
+
+^
+app/rpi/daemon/src/main.cpp:144:0: style: The function 'on_update' is never used. [unusedFunction]
+
+^
+app/other/behaviour_tree/include/behaviour_tree/Context.cpp:52:0: style: The function 'popNode' is never used. [unusedFunction]
+
+^
+app/other/behaviour_tree/include/behaviour_tree/Context.cpp:47:0: style: The function 'pushNodeTrace' is never used. [unusedFunction]
+
+^
+app/rpi/common/tests/tb6612/test_rear_wheels.cpp:72:0: style: The function 'ready' is never used. [unusedFunction]
+
+^
+nofile:0:0: information: Cppcheck cannot find all the include files (use --check-config for details) [missingInclude]
+
